@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+
+/*
+ * Tailwind CSS v4 theme. In v4 the theme lives here (not in tailwind.config.js).
+ * Every --color-royal-* below becomes a utility: bg-royal-600, text-royal-700, ...
+ * To re-brand the whole site, change these values only.
+ */
+@theme {
+  /* Royal Blue (brand) */
+  --color-royal-50: #eef3ff;
+  --color-royal-100: #dfe8ff;
+  --color-royal-200: #c5d4ff;
+  --color-royal-300: #a1b7ff;
+  --color-royal-400: #7590f5;
+  --color-royal-500: #4169e1;
+  --color-royal-600: #2f52cc;
+  --color-royal-700: #2541a8;
+  --color-royal-800: #213a87;
+  --color-royal-900: #1f346b;
+  --color-royal-950: #141f42;
+
+  /* Black + White */
+  --color-ink: #0a0a0a;
+  --color-paper: #ffffff;
+
+  /* Hind Siliguri covers both Bangla and English */
+  --font-sans: var(--font-hind), ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    /* Site background: beige → maroon. Change the four colours here. */
+    --bg-1: #e8d0c1;
+    --bg-2: #c9aea5;
+    --bg-3: #78102d;
+    --bg-4: #78010f;
+  }
+
+  body {
+    background-color: var(--bg-2);
+    background-image: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 38%, var(--bg-3) 78%, var(--bg-4) 100%);
+    background-attachment: fixed;
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-royal-500);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-royal-600);
+    padding: 0.625rem 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    transition: background-color 150ms;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-royal-700);
+  }
+  .btn-primary:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d4d4d8;
+    background-color: #fff;
+    padding: 0.625rem 1.25rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    transition: border-color 150ms, color 150ms;
+  }
+  .btn-outline:hover {
+    border-color: var(--color-royal-600);
+    color: var(--color-royal-700);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #d4d4d8;
+    background-color: #fff;
+    padding: 0.625rem 0.75rem;
+  }
+  .field:focus {
+    border-color: var(--color-royal-500);
+    outline: 2px solid var(--color-royal-200);
+    outline-offset: 0;
+  }
+  .field:disabled {
+    background-color: #f4f4f5;
+    color: #71717a;
+  }
+
+  /* Header row: black behind the logo (so the logo looks exactly like the
+     original artwork, with no visible box), blending into the maroon colours. */
+  .bg-brand-gradient {
+    background-color: #000;
+    background-image: linear-gradient(
+      90deg,
+      #000 0,
+      #000 max(260px, calc(50% - 40rem + 260px)),
+      var(--bg-3) 78%,
+      var(--bg-4) 100%
+    );
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
