@@ -23,6 +23,11 @@
   --color-ink: #0a0a0a;
   --color-paper: #ffffff;
 
+  /* Warm neutrals: page background (bg-cream) and header / nav / footer (bg-sand) */
+  --color-cream: #faf5e6;
+  --color-sand: #ebd3ae;
+  --color-maroon: #78102d;
+
   /* Hind Siliguri covers both Bangla and English */
   --font-sans: var(--font-hind), ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
 }
@@ -32,18 +37,9 @@
     scroll-behavior: smooth;
   }
 
-  :root {
-    /* Site background: beige → maroon. Change the four colours here. */
-    --bg-1: #e8d0c1;
-    --bg-2: #c9aea5;
-    --bg-3: #78102d;
-    --bg-4: #78010f;
-  }
-
   body {
-    background-color: var(--bg-2);
-    background-image: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 38%, var(--bg-3) 78%, var(--bg-4) 100%);
-    background-attachment: fixed;
+    /* Site background, behind the content. Change --color-cream above. */
+    background-color: var(--color-cream);
     color: var(--color-ink);
   }
 
@@ -114,19 +110,6 @@
   .field:disabled {
     background-color: #f4f4f5;
     color: #71717a;
-  }
-
-  /* Header row: black behind the logo (so the logo looks exactly like the
-     original artwork, with no visible box), blending into the maroon colours. */
-  .bg-brand-gradient {
-    background-color: #000;
-    background-image: linear-gradient(
-      90deg,
-      #000 0,
-      #000 max(260px, calc(50% - 40rem + 260px)),
-      var(--bg-3) 78%,
-      var(--bg-4) 100%
-    );
   }
 
   .no-scrollbar {

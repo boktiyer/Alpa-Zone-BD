@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getI18n } from '@/i18n/server';
 import { tr } from '@/i18n/config';
-import { getBanners, getCategories, listProducts } from '@/lib/queries';
+import { getBanners, getCategories, getCategoryCovers, listProducts } from '@/lib/queries';
 import { BannerSlider } from '@/components/store/banner-slider';
 import { ProductGrid } from '@/components/store/product-card';
 import type { ProductCardData } from '@/types/database';
@@ -16,6 +16,7 @@ export default async function HomePage() {
     listProducts({ sort: 'discount', discountOnly: true, pageSize: 8 }),
   ]);
   const topCategories = categories.filter((category) => !category.parent_id);
+  const covers = await getCategoryCovers(categories);
 
   const productSection = (title: string, href: string, products: ProductCardData[]) => (
     <section className="container-page pt-10">
@@ -44,30 +45,34 @@ export default async function HomePage() {
           </p>
         ) : (
           <ul className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-            {topCategories.map((category) => (
-              <li key={category.id}>
-                <Link
-                  href={`/category/${category.slug}`}
-                  className="group relative flex aspect-[5/3] items-end overflow-hidden rounded-xl bg-gradient-to-br from-royal-600 to-royal-900 p-4 text-white transition hover:shadow-lg"
-                >
-                  {category.image_url && (
-                    <>
-                      <Image
-                        src={category.image_url}
-                        alt=""
-                        fill
-                        sizes="(min-width: 1024px) 25vw, 50vw"
-                        className="object-cover transition duration-300 group-hover:scale-105"
-                      />
-                      <span className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    </>
-                  )}
-                  <span className="relative text-base font-semibold leading-tight sm:text-lg">
-                    {tr(category, 'name', locale)}
-                  </span>
-                </Link>
-              </li>
-            ))}
+            {topCategories.map((category) => {
+              // The category's own picture, or a photo of one of its products.
+              const cover = covers.get(category.id);
+              return (
+                <li key={category.id}>
+                  <Link
+                    href={`/category/${category.slug}`}
+                    className="group relative flex aspect-[4/5] items-end overflow-hidden rounded-xl bg-gradient-to-br from-maroon to-[#3d0817] p-4 text-white shadow-sm transition hover:shadow-lg sm:aspect-[4/3] lg:aspect-[4/5]"
+                  >
+                    {cover && (
+                      <>
+                        <Image
+                          src={cover}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 25vw, 50vw"
+                          className="object-cover object-top transition duration-300 group-hover:scale-105"
+                        />
+                        <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                      </>
+                    )}
+                    <span className="relative text-base font-semibold leading-tight sm:text-lg">
+                      {tr(category, 'name', locale)}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

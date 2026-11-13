@@ -35,7 +35,47 @@ export async function getBanners(): Promise<Banner[]> {
   return (data as Banner[] | null) ?? [];
 }
 
-export type ProductSort = 'newest' | 'price_asc' | 'price_desc' | 'discount';
+/**
+ * A picture for each top-level category on the home page: the category's own
+ * image if the admin set one, otherwise the main photo of one of its products
+ * (sub-categories count). Categories with neither are left out.
+ */
+export async function getCategoryCovers(categories: Category[]): Promise<Map<string, string>> {
+  const covers = new Map<string, string>();
+  const topOf = new Map(categories.map((category) => [category.id, category.parent_id ?? category.id]));
+  for (const category of categories) {
+    if (!category.parent_id && category.image_url) covers.set(category.id, category.image_url);
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('products')
+    .select('category_id, product_images(url, is_primary, sort_order)')
+    .eq('is_active', true)
+    .not('category_id', 'is', null)
+    .order('is_featured', { ascending: false })
+    .order('created_at', { ascending: false })
+    .order('id')
+    .limit(300);
+  logError('getCategoryCovers', error);
+
+  type Row = {
+    category_id: string;
+    product_images: { url: string; is_primary: boolean; sort_order: number }[];
+  };
+  for (const product of (data as Row[] | null) ?? []) {
+    const top = topOf.get(product.category_id);
+    if (!top || covers.has(top)) continue;
+    const image = [...product.product_images].sort(
+      (a, b) => Number(b.is_primary) - Number(a.is_primary) || a.sort_order - b.sort_order,
+    )[0];
+    // Skip the placeholder drawings that came with the sample products.
+    if (image && !image.url.startsWith('/seed/')) covers.set(top, image.url);
+  }
+  return covers;
+}
+
+export type ProductSort ='newest' | 'price_asc' | 'price_desc' | 'discount';
 
 export const PRODUCT_SORTS: ProductSort[] = ['newest', 'price_asc', 'price_desc', 'discount'];
 export const PAGE_SIZE = 12;

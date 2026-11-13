@@ -3,9 +3,17 @@ import { useId } from 'react';
 /**
  * Alpa Zone BD logo, drawn as vector so it stays sharp at any size:
  * red "A" with a white hanger, a red swoosh, the name and the "BD" badge.
- * Made for dark backgrounds (header, footer, admin bar).
+ * tone="dark" (default) is for dark backgrounds (admin bar): bright red + glow.
+ * tone="light" is for light backgrounds (store header, footer): deeper red, no glow.
  */
-export function Logo({ className = '' }: { className?: string }) {
+export function Logo({
+  className = '',
+  tone = 'dark',
+}: {
+  className?: string;
+  tone?: 'dark' | 'light';
+}) {
+  const light = tone === 'light';
   const id = useId();
   const body = `${id}-body`;
   const swoosh = `${id}-swoosh`;
@@ -16,7 +24,7 @@ export function Logo({ className = '' }: { className?: string }) {
       role="img"
       aria-label="Alpa Zone BD"
       className={className}
-      style={{ filter: 'drop-shadow(0 0 7px rgba(255, 30, 30, 0.55))' }}
+      style={light ? undefined : { filter: 'drop-shadow(0 0 7px rgba(255, 30, 30, 0.55))' }}
     >
       <defs>
         <linearGradient id={body} x1="0" y1="0" x2="0" y2="1">
@@ -67,7 +75,7 @@ export function Logo({ className = '' }: { className?: string }) {
         lengthAdjust="spacingAndGlyphs"
         fontSize="70"
         fontWeight="700"
-        fill="#ff2a2a"
+        fill={light ? '#a80000' : '#ff2a2a'}
         style={{ fontFamily: 'var(--font-hind), Arial, sans-serif' }}
       >
         Alpa Zone

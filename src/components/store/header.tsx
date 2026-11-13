@@ -39,7 +39,7 @@ export async function Header() {
   ]);
   const topCategories = categories.filter((category) => !category.parent_id);
   const iconLink =
-    'relative size-10 place-items-center rounded-full text-white hover:bg-white/15';
+    'relative size-10 place-items-center rounded-full text-ink hover:bg-black/10';
 
   const navItems = [
     { href: '/', label: t.nav.home },
@@ -58,10 +58,10 @@ export async function Header() {
       </div>
 
       <header className="sticky top-0 z-40 shadow-md">
-        <div className="bg-brand-gradient">
+        <div className="bg-sand">
           <div className="container-page flex items-center gap-3 sm:gap-5">
             <Link href="/" className="shrink-0">
-              <Logo className="h-16 w-auto py-1.5 sm:h-20" />
+              <Logo tone="light" className="h-16 w-auto py-1.5 sm:h-20" />
             </Link>
 
             <div className="hidden flex-1 md:block md:max-w-xl">
@@ -69,7 +69,7 @@ export async function Header() {
             </div>
 
             <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
-              <LanguageToggle className="mr-1 text-white" />
+              <LanguageToggle className="mr-1 text-ink" />
 
               <Link
                 href="/wishlist"
@@ -86,7 +86,7 @@ export async function Header() {
               >
                 <CartIcon className="size-6" />
                 {cartCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-white px-1 text-xs font-bold leading-5 text-royal-700">
+                  <span className="absolute -right-0.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-maroon px-1 text-xs font-bold leading-5 text-white">
                     {formatNumber(cartCount, locale)}
                   </span>
                 )}
@@ -97,7 +97,7 @@ export async function Header() {
                   {profile.role === 'admin' && (
                     <Link
                       href="/admin"
-                      className="hidden rounded-md bg-white px-3 py-1.5 text-sm font-semibold text-ink hover:bg-zinc-200 lg:inline-block"
+                      className="hidden rounded-md bg-ink px-3 py-1.5 text-sm font-semibold text-white hover:bg-zinc-800 lg:inline-block"
                     >
                       {t.nav.admin}
                     </Link>
@@ -127,13 +127,13 @@ export async function Header() {
         </div>
       </header>
 
-      <nav aria-label={t.nav.categories} className="bg-white shadow-sm">
+      <nav aria-label={t.nav.categories} className="border-t border-black/10 bg-sand shadow-sm">
         <ul className="container-page no-scrollbar flex gap-1 overflow-x-auto py-1.5 text-sm font-medium">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="block whitespace-nowrap rounded-md px-3 py-1.5 hover:bg-royal-50 hover:text-royal-700"
+                className="block whitespace-nowrap rounded-md px-3 py-1.5 hover:bg-black/10"
               >
                 {item.label}
               </Link>
