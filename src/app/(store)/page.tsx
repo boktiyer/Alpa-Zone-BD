@@ -52,7 +52,7 @@ export default async function HomePage() {
                 <li key={category.id}>
                   <Link
                     href={`/category/${category.slug}`}
-                    className="group relative flex aspect-[4/5] items-end overflow-hidden rounded-xl bg-gradient-to-br from-maroon to-[#3d0817] p-4 text-white shadow-sm transition hover:shadow-lg sm:aspect-[4/3] lg:aspect-[4/5]"
+                    className="group relative flex aspect-square items-end overflow-hidden rounded-xl bg-gradient-to-br from-maroon to-[#3d0817] p-3 text-white shadow-sm transition hover:shadow-lg sm:p-4"
                   >
                     {cover && (
                       <>
@@ -61,7 +61,10 @@ export default async function HomePage() {
                           alt=""
                           fill
                           sizes="(min-width: 1024px) 25vw, 50vw"
-                          className="object-cover object-top transition duration-300 group-hover:scale-105"
+                          className={`object-cover transition duration-300 group-hover:scale-105 ${
+                            // Artwork is centred; product photos keep the top (faces) in view.
+                            cover.startsWith('/categories/') ? 'object-center' : 'object-top'
+                          }`}
                         />
                         <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
                       </>

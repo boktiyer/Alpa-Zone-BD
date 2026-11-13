@@ -35,16 +35,23 @@ export async function getBanners(): Promise<Banner[]> {
   return (data as Banner[] | null) ?? [];
 }
 
+/** Ready-made artwork in public/categories/, by category slug. */
+const CATEGORY_ARTWORK: Record<string, string> = {
+  'fashion-accessories': '/categories/cosmetics-jewelry.jpg',
+};
+
 /**
  * A picture for each top-level category on the home page: the category's own
- * image if the admin set one, otherwise the main photo of one of its products
- * (sub-categories count). Categories with neither are left out.
+ * image if the admin set one, then the artwork above, otherwise the main photo
+ * of one of its products (sub-categories count). Categories with none are left out.
  */
 export async function getCategoryCovers(categories: Category[]): Promise<Map<string, string>> {
   const covers = new Map<string, string>();
   const topOf = new Map(categories.map((category) => [category.id, category.parent_id ?? category.id]));
   for (const category of categories) {
-    if (!category.parent_id && category.image_url) covers.set(category.id, category.image_url);
+    if (category.parent_id) continue;
+    const cover = category.image_url || CATEGORY_ARTWORK[category.slug];
+    if (cover) covers.set(category.id, cover);
   }
 
   const supabase = await createClient();
