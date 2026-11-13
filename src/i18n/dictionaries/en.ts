@@ -211,6 +211,7 @@ const en = {
     missingFields: 'Please fill in all the fields.',
     invalidPhone: 'Enter a valid 11-digit mobile number (01XXXXXXXXX).',
     linkError: 'That link is invalid or has expired. Please try again.',
+    emailConfirmed: 'Your email is confirmed. Now log in with your email and password.',
     genericError: 'Something went wrong. Please try again.',
   },
   account: {

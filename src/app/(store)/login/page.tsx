@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; confirmed?: string }>;
 }) {
   const [{ t }, params] = await Promise.all([getI18n(), searchParams]);
 
@@ -21,6 +21,7 @@ export default async function LoginPage({
         mode="login"
         next={safeNextPath(params.next)}
         initialError={params.error ? t.auth.linkError : undefined}
+        initialMessage={params.confirmed ? t.auth.emailConfirmed : undefined}
       />
     </div>
   );

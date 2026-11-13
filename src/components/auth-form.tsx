@@ -9,16 +9,23 @@ export function AuthForm({
   mode,
   next,
   initialError,
+  initialMessage,
 }: {
   mode: 'login' | 'signup';
   next?: string;
   initialError?: string;
+  /** Good news shown above the form, e.g. "your email is confirmed". */
+  initialMessage?: string;
 }) {
   const { t } = useI18n();
   const isSignup = mode === 'signup';
   const [state, formAction, pending] = useActionState<FormState, FormData>(
     isSignup ? signup : login,
-    initialError ? { error: initialError } : null,
+    initialError
+      ? { error: initialError }
+      : initialMessage
+        ? { message: initialMessage }
+        : null,
   );
 
   return (
