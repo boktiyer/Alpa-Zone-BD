@@ -1,3 +1,4 @@
+import { categoryPath } from '@/lib/category-url';
 import type { MetadataRoute } from 'next';
 import { createClient } from '@/lib/supabase/server';
 
@@ -17,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/products`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${siteUrl}/track-order`, changeFrequency: 'yearly', priority: 0.3 },
     ...((categories.data as Row[] | null) ?? []).map((row) => ({
-      url: `${siteUrl}/category/${row.slug}`,
+      url: `${siteUrl}${categoryPath(row.slug)}`,
       lastModified: row.updated_at,
       changeFrequency: 'weekly' as const,
       priority: 0.7,

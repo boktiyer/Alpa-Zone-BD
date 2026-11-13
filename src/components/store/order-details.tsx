@@ -52,13 +52,13 @@ export function OrderTimeline({
               <span
                 aria-hidden="true"
                 className={`absolute left-4 top-8 h-[calc(100%-2rem)] w-0.5 -translate-x-1/2 sm:left-[calc(50%+1.25rem)] sm:top-4 sm:h-0.5 sm:w-[calc(100%-2.5rem)] sm:translate-x-0 sm:-translate-y-1/2 ${
-                  index < current ? 'bg-royal-600' : 'bg-zinc-300'
+                  index < current ? 'bg-brand' : 'bg-zinc-300'
                 }`}
               />
             )}
             <span
               className={`relative grid size-8 shrink-0 place-items-center rounded-full text-sm font-bold ${
-                done ? 'bg-royal-600 text-white' : 'border-2 border-zinc-300 bg-white text-zinc-500'
+                done ? 'bg-brand text-white' : 'border-2 border-zinc-300 bg-white text-zinc-500'
               }`}
             >
               {done ? <CheckIcon className="size-4" /> : formatNumber(index + 1, locale)}
@@ -95,7 +95,7 @@ export function OrderDetails({
       <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
         <div>
           <p className="text-sm text-zinc-600">{t.order.orderNumber}</p>
-          <p className="text-2xl font-bold tracking-wide text-royal-700">{order.order_number}</p>
+          <p className="text-2xl font-bold tracking-wide text-brand">{order.order_number}</p>
         </div>
         <p className="text-sm text-zinc-600">
           {t.order.placedOn}: {formatDateTime(order.created_at, locale)}
@@ -114,7 +114,7 @@ export function OrderDetails({
         <ul className="divide-y divide-zinc-100">
           {order.items.map((item, index) => (
             <li key={index} className="flex gap-3 p-3 sm:px-5">
-              <span className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-royal-50">
+              <span className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-blush">
                 {item.image_url && (
                   <Image src={item.image_url} alt="" fill sizes="64px" className="object-cover" />
                 )}
@@ -155,7 +155,7 @@ export function OrderDetails({
           </div>
           <div className="flex justify-between border-t border-zinc-200 pt-2 text-lg font-bold">
             <dt>{t.cart.total}</dt>
-            <dd className="text-royal-700">{formatPrice(order.total, locale)}</dd>
+            <dd className="text-brand">{formatPrice(order.total, locale)}</dd>
           </div>
         </dl>
       </section>

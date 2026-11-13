@@ -33,8 +33,11 @@ export function AdminNav() {
   ];
 
   return (
-    <nav aria-label="Admin" className="border-b border-zinc-200 bg-white print:hidden">
-      <ul className="container-page no-scrollbar flex gap-1 overflow-x-auto py-1.5 text-sm font-medium">
+    <nav
+      aria-label="Admin"
+      className="bg-footer text-white/80 print:hidden lg:w-56 lg:shrink-0 lg:border-t lg:border-white/10"
+    >
+      <ul className="no-scrollbar flex gap-1 overflow-x-auto px-3 py-2 text-sm font-medium lg:sticky lg:top-0 lg:flex-col lg:overflow-visible lg:py-4">
         {items.map((item) => {
           const active =
             item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href);
@@ -43,8 +46,8 @@ export function AdminNav() {
               <Link
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
-                className={`block whitespace-nowrap rounded-md px-3 py-1.5 ${
-                  active ? 'bg-royal-600 text-white' : 'hover:bg-royal-50 hover:text-royal-700'
+                className={`block whitespace-nowrap rounded-xl px-3 py-2 transition-colors duration-200 ${
+                  active ? 'bg-gold font-semibold text-brand-dark' : 'hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {item.label}
@@ -154,19 +157,19 @@ export function ImagesField({ initial }: { initial: string[] }) {
             <li key={url} className="w-28 text-center text-xs">
               <span
                 className={`relative block aspect-square overflow-hidden rounded-lg border-2 bg-zinc-100 ${
-                  index === 0 ? 'border-royal-600' : 'border-zinc-200'
+                  index === 0 ? 'border-brand' : 'border-zinc-200'
                 }`}
               >
                 <Image src={url} alt="" fill sizes="112px" className="object-cover" />
               </span>
               {index === 0 ? (
-                <span className="mt-1 block font-semibold text-royal-700">
+                <span className="mt-1 block font-semibold text-brand">
                   {L('মূল ছবি', 'Main picture')}
                 </span>
               ) : (
                 <button
                   type="button"
-                  className="mt-1 block w-full font-medium text-royal-700 hover:underline"
+                  className="mt-1 block w-full font-medium text-brand hover:underline"
                   onClick={() => setImages([url, ...images.filter((item) => item !== url)])}
                 >
                   {L('মূল ছবি করুন', 'Make main')}
@@ -184,7 +187,7 @@ export function ImagesField({ initial }: { initial: string[] }) {
         </ul>
       )}
 
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center font-semibold text-royal-700 hover:border-royal-600 hover:bg-royal-50">
+      <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center font-semibold text-brand hover:border-brand hover:bg-blush">
         <span className="text-2xl leading-none" aria-hidden>
           +
         </span>

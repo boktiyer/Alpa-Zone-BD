@@ -88,7 +88,7 @@ export default async function AdminBannersPage({
             type="checkbox"
             name="is_active"
             defaultChecked={editing?.is_active ?? true}
-            className="size-4 accent-royal-600"
+            className="size-4 accent-brand"
           />
           {L('সাইটে দেখাবে', 'Visible on the site')}
         </label>
@@ -123,7 +123,7 @@ export default async function AdminBannersPage({
                 </form>
                 <Link
                   href={`/admin/banners?edit=${banner.id}`}
-                  className="font-semibold text-royal-700 hover:underline"
+                  className="font-semibold text-brand hover:underline"
                 >
                   {L('এডিট', 'Edit')}
                 </Link>

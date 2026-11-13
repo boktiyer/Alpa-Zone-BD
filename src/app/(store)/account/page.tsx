@@ -33,13 +33,13 @@ export default async function AccountPage() {
         <span className="text-zinc-600">{t.account.role}:</span>
         <span
           className={`rounded-full px-3 py-0.5 font-semibold ${
-            isAdmin ? 'bg-ink text-white' : 'bg-royal-100 text-royal-800'
+            isAdmin ? 'bg-ink text-white' : 'bg-blush text-brand-dark'
           }`}
         >
           {isAdmin ? t.account.roleAdmin : t.account.roleCustomer}
         </span>
         {isAdmin && (
-          <Link href="/admin" className="font-semibold text-royal-700 hover:underline">
+          <Link href="/admin" className="font-semibold text-brand hover:underline">
             {t.nav.admin} →
           </Link>
         )}
@@ -54,7 +54,7 @@ export default async function AccountPage() {
           <li key={item.href}>
             <Link
               href={item.href}
-              className="block rounded-xl border border-zinc-200 bg-white p-4 text-center font-semibold hover:border-royal-500 hover:text-royal-700"
+              className="block rounded-xl border border-zinc-200 bg-white p-4 text-center font-semibold hover:border-brand hover:text-brand"
             >
               {item.label}
             </Link>

@@ -90,7 +90,7 @@ export function AuthForm({
         {isSignup ? t.auth.haveAccount : t.auth.noAccount}{' '}
         <Link
           href={isSignup ? '/login' : '/signup'}
-          className="font-semibold text-royal-700 hover:underline"
+          className="font-semibold text-brand hover:underline"
         >
           {isSignup ? t.nav.login : t.nav.signup}
         </Link>

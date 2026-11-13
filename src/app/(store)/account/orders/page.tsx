@@ -15,7 +15,7 @@ export default async function MyOrdersPage() {
   return (
     <div className="container-page max-w-3xl pt-8">
       <nav aria-label="Breadcrumb" className="text-sm text-zinc-500">
-        <Link href="/account" className="hover:text-royal-700">
+        <Link href="/account" className="hover:text-brand">
           {t.account.title}
         </Link>
         <span className="mx-1.5">/</span>
@@ -38,10 +38,10 @@ export default async function MyOrdersPage() {
               <li key={order.id}>
                 <Link
                   href={`/account/orders/${order.order_number}`}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-royal-400"
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-gold"
                 >
                   <span>
-                    <span className="block text-lg font-bold text-royal-700">
+                    <span className="block text-lg font-bold text-brand">
                       {order.order_number}
                     </span>
                     <span className="block text-sm text-zinc-600">
@@ -57,7 +57,7 @@ export default async function MyOrdersPage() {
                           ? 'bg-red-100 text-red-800'
                           : order.status === 'delivered'
                             ? 'bg-green-100 text-green-800'
-                            : 'bg-royal-100 text-royal-800'
+                            : 'bg-blush text-brand-dark'
                       }`}
                     >
                       {t.orderStatus[order.status]}

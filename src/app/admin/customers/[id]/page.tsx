@@ -27,7 +27,7 @@ export default async function AdminCustomerPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <Link href="/admin/customers" className="text-sm font-semibold text-royal-700 hover:underline">
+      <Link href="/admin/customers" className="text-sm font-semibold text-brand hover:underline">
         ← {t.admin.customers}
       </Link>
       <div className="mt-3">
@@ -54,7 +54,7 @@ export default async function AdminCustomerPage({ params }: { params: Promise<{ 
       ) : (
         <TableWrap>
           <table className="w-full min-w-[520px] text-sm">
-            <thead className="bg-zinc-50">
+            <thead className="bg-brand">
               <tr>
                 <th className={th}>{t.admin.orderNo}</th>
                 <th className={th}>{t.admin.total}</th>
@@ -69,7 +69,7 @@ export default async function AdminCustomerPage({ params }: { params: Promise<{ 
                   <td className={td}>
                     <Link
                       href={`/admin/orders/${order.id}`}
-                      className="font-bold text-royal-700 hover:underline"
+                      className="font-bold text-brand hover:underline"
                     >
                       {order.order_number}
                     </Link>

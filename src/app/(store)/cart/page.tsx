@@ -58,7 +58,7 @@ export default async function CartPage() {
               )}
               <div className="flex justify-between border-t border-zinc-200 pt-2 text-lg font-bold">
                 <dt>{t.cart.total}</dt>
-                <dd className="text-royal-700">{formatPrice(cart.subtotal - discount, locale)}</dd>
+                <dd className="text-brand">{formatPrice(cart.subtotal - discount, locale)}</dd>
               </div>
             </dl>
             <p className="text-xs text-zinc-600">{t.cart.deliveryNote}</p>

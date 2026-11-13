@@ -1,3 +1,4 @@
+import { categoryPath } from '@/lib/category-url';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -83,13 +84,13 @@ export default async function ProductPage({ params }: Props) {
       />
 
       <nav aria-label="Breadcrumb" className="text-sm text-zinc-500">
-        <Link href="/" className="hover:text-royal-700">
+        <Link href="/" className="hover:text-brand">
           {t.nav.home}
         </Link>
         {product.categories && (
           <>
             <span className="mx-1.5">/</span>
-            <Link href={`/category/${product.categories.slug}`} className="hover:text-royal-700">
+            <Link href={categoryPath(product.categories.slug)} className="hover:text-brand">
               {tr(product.categories, 'name', locale)}
             </Link>
           </>

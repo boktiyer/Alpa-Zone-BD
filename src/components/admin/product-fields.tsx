@@ -77,7 +77,7 @@ export function PriceFields({
         </p>
       ) : (
         hasRegular && (
-          <p className="mt-3 rounded-lg bg-royal-50 p-3 text-sm text-royal-900">
+          <p className="mt-3 rounded-lg bg-blush p-3 text-sm text-brand-dark">
             {L('কাস্টমার দেখবে:', 'Customers will see:')}{' '}
             <strong className="text-base">৳{hasDiscount ? discountValue : regularValue}</strong>
             {hasDiscount && (
@@ -182,8 +182,8 @@ export function VariantsField({
                 onClick={() => setSizes(on ? sizes.filter((item) => item !== size) : [...sizes, size])}
                 className={`min-w-12 rounded-lg border px-3 py-2 text-sm font-semibold ${
                   on
-                    ? 'border-royal-600 bg-royal-600 text-white'
-                    : 'border-zinc-300 bg-white hover:border-royal-600'
+                    ? 'border-brand bg-brand text-white'
+                    : 'border-zinc-300 bg-white hover:border-brand'
                 }`}
               >
                 {size}

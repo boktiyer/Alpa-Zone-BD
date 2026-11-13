@@ -112,7 +112,7 @@ export default async function AdminCouponsPage({
             type="checkbox"
             name="is_active"
             defaultChecked={editing?.is_active ?? true}
-            className="size-4 accent-royal-600"
+            className="size-4 accent-brand"
           />
           {L('চালু', 'Active')}
         </label>
@@ -133,7 +133,7 @@ export default async function AdminCouponsPage({
       {coupons.length > 0 && (
         <TableWrap>
           <table className="w-full min-w-[640px] text-sm">
-            <thead className="bg-zinc-50">
+            <thead className="bg-brand">
               <tr>
                 <th className={th}>{L('কোড', 'Code')}</th>
                 <th className={th}>{t.cart.discount}</th>
@@ -178,7 +178,7 @@ export default async function AdminCouponsPage({
                     <td className={`${td} whitespace-nowrap text-right`}>
                       <Link
                         href={`/admin/coupons?edit=${coupon.id}`}
-                        className="mr-3 text-sm font-semibold text-royal-700 hover:underline"
+                        className="mr-3 text-sm font-semibold text-brand hover:underline"
                       >
                         {L('এডিট', 'Edit')}
                       </Link>

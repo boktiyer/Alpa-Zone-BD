@@ -15,7 +15,7 @@ export default async function NewProductPage({
 
   return (
     <>
-      <Link href="/admin/products" className="text-sm font-semibold text-royal-700 hover:underline">
+      <Link href="/admin/products" className="text-sm font-semibold text-brand hover:underline">
         ← {t.admin.products}
       </Link>
       <div className="mt-3">

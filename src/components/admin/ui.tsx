@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import type { OrderStatus, PaymentStatus } from '@/types/database';
 
-export const card = 'rounded-xl border border-zinc-200 bg-white';
-export const th = 'px-3 py-2 text-left font-medium text-zinc-600';
+export const card = 'rounded-xl border border-border bg-white';
+export const th = 'px-3 py-2.5 text-left font-semibold text-white';
 export const td = 'px-3 py-2 align-top';
 
 /** Green / red banner driven by ?ok=1 or ?error=message in the URL. */
@@ -46,8 +46,8 @@ export function TableWrap({ children }: { children: ReactNode }) {
 
 const statusColor: Record<OrderStatus, string> = {
   pending: 'bg-amber-100 text-amber-900',
-  confirmed: 'bg-royal-100 text-royal-800',
-  processing: 'bg-royal-100 text-royal-800',
+  confirmed: 'bg-blush text-brand',
+  processing: 'bg-blush text-brand-dark',
   shipped: 'bg-indigo-100 text-indigo-800',
   delivered: 'bg-green-100 text-green-800',
   cancelled: 'bg-red-100 text-red-800',

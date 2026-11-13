@@ -40,7 +40,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
     <li className={`flex gap-3 p-3 sm:gap-4 sm:p-4 ${pending ? 'opacity-60' : ''}`}>
       <Link
         href={`/products/${line.slug}`}
-        className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-royal-50 sm:size-24"
+        className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-blush sm:size-24"
       >
         {line.imageUrl && (
           <Image src={line.imageUrl} alt="" fill sizes="96px" className="object-cover" />
@@ -50,7 +50,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <Link href={`/products/${line.slug}`} className="font-medium hover:text-royal-700">
+            <Link href={`/products/${line.slug}`} className="font-medium hover:text-brand">
               {name}
             </Link>
             {line.variantLabel && <p className="text-sm text-zinc-600">{line.variantLabel}</p>}
@@ -96,7 +96,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
               +
             </button>
           </div>
-          <p className="font-bold text-royal-700">{formatPrice(line.lineTotal, locale)}</p>
+          <p className="font-bold text-brand">{formatPrice(line.lineTotal, locale)}</p>
         </div>
 
         {unavailable ? (

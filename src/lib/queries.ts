@@ -6,7 +6,8 @@ import type { Banner, Category, ProductCardData, ProductDetail } from '@/types/d
 // All store data comes from the database — nothing is hardcoded.
 // Row Level Security already hides inactive rows from customers.
 
-const PRODUCT_CARD_SELECT = '*, product_images(url, alt, is_primary, sort_order)';
+const PRODUCT_CARD_SELECT =
+  '*, product_images(url, alt, is_primary, sort_order), product_variants(price, is_active)';
 
 function logError(where: string, error: { message: string } | null) {
   if (error) console.error(`[supabase] ${where}: ${error.message}`);

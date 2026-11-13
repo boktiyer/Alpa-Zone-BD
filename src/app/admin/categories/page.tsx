@@ -88,7 +88,7 @@ export default async function AdminCategoriesPage({
             type="checkbox"
             name="is_active"
             defaultChecked={editing?.is_active ?? true}
-            className="size-4 accent-royal-600"
+            className="size-4 accent-brand"
           />
           {L('সাইটে দেখাবে', 'Visible on the site')}
         </label>
@@ -104,7 +104,7 @@ export default async function AdminCategoriesPage({
 
       <TableWrap>
         <table className="w-full min-w-[520px] text-sm">
-          <thead className="bg-zinc-50">
+          <thead className="bg-brand">
             <tr>
               <th className={th}>{t.list.category}</th>
               <th className={th}>slug</th>
@@ -129,7 +129,7 @@ export default async function AdminCategoriesPage({
                   <td className={`${td} whitespace-nowrap text-right`}>
                     <Link
                       href={`/admin/categories?edit=${category.id}`}
-                      className="mr-3 text-sm font-semibold text-royal-700 hover:underline"
+                      className="mr-3 text-sm font-semibold text-brand hover:underline"
                     >
                       {L('এডিট', 'Edit')}
                     </Link>

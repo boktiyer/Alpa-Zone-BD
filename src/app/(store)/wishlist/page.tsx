@@ -28,8 +28,8 @@ export default async function WishlistPage() {
         <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           {products.map((product) => (
             <li key={product.id} className="flex flex-col">
-              <div className="flex flex-1 flex-col [&>a]:flex-1">
-                <ProductCard product={product} locale={locale} t={t} />
+              <div className="flex flex-1 flex-col">
+                <ProductCard product={product} locale={locale} t={t} inWishlist />
               </div>
               <WishlistRemove productId={product.id} />
             </li>

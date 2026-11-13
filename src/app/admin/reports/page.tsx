@@ -93,7 +93,7 @@ export default async function AdminReportsPage({
       ) : (
         <TableWrap>
           <table className="w-full min-w-[560px] text-sm">
-            <thead className="bg-zinc-50">
+            <thead className="bg-brand">
               <tr>
                 <th className={th}>{monthly ? L('মাস', 'Month') : L('তারিখ', 'Date')}</th>
                 <th className={`${th} text-right`}>{L('অর্ডার', 'Orders')}</th>

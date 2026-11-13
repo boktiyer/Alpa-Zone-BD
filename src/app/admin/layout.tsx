@@ -23,18 +23,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (profile.role !== 'admin') redirect('/');
 
   return (
-    <div className="min-h-dvh bg-zinc-50 print:bg-white">
-      <header className="bg-black text-white print:hidden">
-        <div className="container-page flex flex-wrap items-center justify-between gap-3">
-          <Link href="/admin" className="flex items-center gap-2.5">
+    <div className="flex min-h-dvh flex-col bg-page print:bg-white">
+      <header className="bg-footer text-white print:hidden">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 lg:px-6">
+          <Link href="/admin" className="flex items-center gap-3">
             <Logo className="h-14 w-auto py-1.5" />
-            <span className="rounded bg-royal-600 px-1.5 py-0.5 text-xs font-semibold">
+            <span className="rounded-md bg-gold px-2 py-0.5 text-xs font-semibold text-brand-dark">
               {t.admin.title}
             </span>
           </Link>
 
           <div className="flex items-center gap-2 text-sm sm:gap-3">
-            <span className="hidden text-zinc-300 lg:inline">{profile.email}</span>
+            <span className="hidden text-white/70 lg:inline">{profile.email}</span>
             <LanguageToggle />
             <Link href="/" className="rounded-md px-2.5 py-1 font-medium hover:bg-white/10">
               {t.admin.viewStore}
@@ -42,7 +42,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <form action={logout}>
               <button
                 type="submit"
-                className="rounded-md bg-white px-2.5 py-1 font-semibold text-ink hover:bg-zinc-200"
+                className="rounded-md bg-gold px-2.5 py-1 font-semibold text-brand-dark transition-colors hover:bg-white"
               >
                 {t.nav.logout}
               </button>
@@ -51,9 +51,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
       </header>
 
-      <AdminNav />
-
-      <main className="container-page py-6 print:py-0">{children}</main>
+      <div className="flex flex-1 flex-col lg:flex-row">
+        <AdminNav />
+        <main className="min-w-0 flex-1 px-4 py-6 lg:px-8 print:p-0">
+          <div className="mx-auto max-w-6xl">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function ProductGallery({ images, name }: { images: GalleryImage[]; name:
 
   return (
     <div>
-      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-royal-50">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-blush">
         {main && (
           <Image
             key={main.id}
@@ -35,8 +35,8 @@ export function ProductGallery({ images, name }: { images: GalleryImage[]; name:
                 aria-label={`${name} ${index + 1}`}
                 aria-current={index === active}
                 onClick={() => setActive(index)}
-                className={`relative block size-20 overflow-hidden rounded-lg border-2 bg-royal-50 ${
-                  index === active ? 'border-royal-600' : 'border-transparent hover:border-royal-300'
+                className={`relative block size-20 overflow-hidden rounded-lg border-2 bg-blush ${
+                  index === active ? 'border-brand' : 'border-transparent hover:border-gold'
                 }`}
               >
                 <Image src={image.url} alt="" fill sizes="80px" className="object-cover" />

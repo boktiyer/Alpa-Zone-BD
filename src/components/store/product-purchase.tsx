@@ -8,6 +8,7 @@ import { whatsappLink } from '@/config/site';
 import { useI18n } from '@/i18n/provider';
 import { discountPercent, formatNumber, formatPrice } from '@/lib/format';
 import { CartIcon, HeartIcon, WhatsAppIcon } from '@/components/icons';
+import { announceCartAdded, toast } from '@/components/store/toast';
 
 type Variant = {
   id: string;
@@ -59,6 +60,8 @@ export function ProductPurchase({
   const [feedback, setFeedback] = useState<{ type: 'ok' | 'error'; text: string } | null>(null);
   const [adding, startAdding] = useTransition();
   const [wishing, startWishing] = useTransition();
+  const [buying, startBuying] = useTransition();
+  const [pops, setPops] = useState(0);
 
   const hasVariants = variants.length > 0;
   const needsSize = sizes.length > 0;
@@ -88,11 +91,11 @@ export function ProductPurchase({
     );
 
   const optionClass = (active: boolean, enabled: boolean) =>
-    `rounded-lg border px-3.5 py-1.5 text-sm font-medium transition ${
+    `rounded-xl border px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 active:scale-95 ${
       active
-        ? 'border-royal-600 bg-royal-600 text-white'
+        ? 'border-brand bg-brand text-white'
         : enabled
-          ? 'border-zinc-300 bg-white hover:border-royal-500'
+          ? 'border-border bg-white hover:border-brand hover:text-brand'
           : 'border-zinc-200 bg-white text-zinc-400 line-through'
     }`;
 
@@ -116,7 +119,28 @@ export function ProductPurchase({
         variantId: selected?.id ?? null,
         quantity: safeQuantity,
       });
-      if (result.ok) setFeedback({ type: 'ok', text: t.product.added });
+      if (result.ok) {
+        setFeedback({ type: 'ok', text: t.product.added });
+        announceCartAdded();
+        toast({ text: t.product.added, href: '/cart', linkText: t.product.viewCart });
+      } else if (result.needLogin) goToLogin();
+      else setFeedback({ type: 'error', text: result.error });
+    });
+  };
+
+  // Buy now: put it in the cart and go straight to checkout.
+  const handleBuyNow = () => {
+    if (hasVariants && !complete) {
+      setFeedback({ type: 'error', text: t.product.chooseOptions });
+      return;
+    }
+    startBuying(async () => {
+      const result = await addToCart({
+        productId,
+        variantId: selected?.id ?? null,
+        quantity: safeQuantity,
+      });
+      if (result.ok) router.push('/checkout');
       else if (result.needLogin) goToLogin();
       else setFeedback({ type: 'error', text: result.error });
     });
@@ -125,7 +149,10 @@ export function ProductPurchase({
   const handleWishlist = () => {
     startWishing(async () => {
       const result = await toggleWishlist(productId);
-      if (result.ok) setInWishlist(result.inWishlist);
+      if (result.ok) {
+        setInWishlist(result.inWishlist);
+        setPops((value) => value + 1);
+      }
       else if (result.needLogin) goToLogin();
       else setFeedback({ type: 'error', text: result.error });
     });
@@ -145,13 +172,13 @@ export function ProductPurchase({
   return (
     <div className="space-y-4">
       <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="text-3xl font-bold text-royal-700">{formatPrice(shownPrice, locale)}</span>
+        <span className="text-3xl font-bold text-brand">{formatPrice(shownPrice, locale)}</span>
         {percent > 0 && compareAtPrice && (
           <>
             <span className="text-lg text-zinc-500 line-through">
               {formatPrice(compareAtPrice, locale)}
             </span>
-            <span className="rounded-md bg-royal-100 px-2 py-0.5 text-sm font-semibold text-royal-800">
+            <span className="rounded-md bg-sale px-2 py-0.5 text-sm font-semibold text-white">
               {formatNumber(percent, locale)}% {t.product.off}
             </span>
           </>
@@ -215,7 +242,7 @@ export function ProductPurchase({
         <div
           role="group"
           aria-label={t.product.quantity}
-          className="inline-flex items-center rounded-lg border border-zinc-300 bg-white"
+          className="inline-flex items-center rounded-xl border border-border bg-white"
         >
           <button
             type="button"
@@ -244,10 +271,19 @@ export function ProductPurchase({
           type="button"
           onClick={handleAdd}
           disabled={adding || (complete && !canBuy)}
-          className="btn-primary min-w-44 flex-1 py-3 sm:flex-none"
+          className="btn-primary min-w-40 flex-1 sm:flex-none"
         >
           <CartIcon className="size-5" />
           {adding ? t.product.adding : t.product.addToCart}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleBuyNow}
+          disabled={buying || adding || (complete && !canBuy)}
+          className="btn-secondary min-w-40 flex-1 sm:flex-none"
+        >
+          {buying ? t.product.adding : t.product.buyNow}
         </button>
 
         <button
@@ -257,13 +293,15 @@ export function ProductPurchase({
           aria-pressed={inWishlist}
           aria-label={inWishlist ? t.product.removeWishlist : t.product.addWishlist}
           title={inWishlist ? t.product.removeWishlist : t.product.addWishlist}
-          className={`grid size-12 place-items-center rounded-lg border bg-white transition disabled:opacity-60 ${
+          className={`grid size-11 place-items-center rounded-xl border bg-white transition-colors duration-300 disabled:opacity-60 ${
             inWishlist
-              ? 'border-red-300 text-red-600'
-              : 'border-zinc-300 text-zinc-700 hover:border-red-300 hover:text-red-600'
+              ? 'border-sale text-sale'
+              : 'border-border text-ink hover:border-sale hover:text-sale'
           }`}
         >
-          <HeartIcon filled={inWishlist} className="size-6" />
+          <span key={pops} className={pops > 0 ? 'animate-pop' : ''}>
+            <HeartIcon filled={inWishlist} className="size-6" />
+          </span>
         </button>
       </div>
 
@@ -287,7 +325,7 @@ export function ProductPurchase({
         href={whatsappLink(whatsappMessage)}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#128c4a] px-5 py-3 font-semibold text-white transition hover:bg-[#0e733c] sm:w-auto"
+        className="btn-whatsapp w-full sm:w-auto"
       >
         <WhatsAppIcon className="size-5" />
         {t.product.whatsappOrder}

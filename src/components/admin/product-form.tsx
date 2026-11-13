@@ -12,7 +12,7 @@ export async function ProductForm({ product }: { product?: ProductDetail }) {
   const label = 'block text-sm font-medium';
   const section = 'rounded-xl border border-zinc-200 bg-white p-4 sm:p-5';
   const heading = 'mb-3 flex items-center gap-2 text-base font-semibold';
-  const step = 'grid size-7 shrink-0 place-items-center rounded-full bg-royal-600 text-sm font-bold text-white';
+  const step = 'grid size-7 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-white';
 
   const images = [...(product?.product_images ?? [])]
     .sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.sort_order - b.sort_order)
@@ -111,7 +111,7 @@ export async function ProductForm({ product }: { product?: ProductDetail }) {
               type="checkbox"
               name="is_active"
               defaultChecked={product?.is_active ?? true}
-              className="mt-0.5 size-5 accent-royal-600"
+              className="mt-0.5 size-5 accent-brand"
             />
             <span>
               {L('সাইটে দেখাবে', 'Show on the site')}
@@ -128,7 +128,7 @@ export async function ProductForm({ product }: { product?: ProductDetail }) {
               type="checkbox"
               name="is_featured"
               defaultChecked={product?.is_featured ?? false}
-              className="mt-0.5 size-5 accent-royal-600"
+              className="mt-0.5 size-5 accent-brand"
             />
             {L('ফিচার্ড প্রোডাক্ট', 'Featured product')}
           </label>

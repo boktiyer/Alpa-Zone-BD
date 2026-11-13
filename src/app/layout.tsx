@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Hind_Siliguri } from 'next/font/google';
+import { Hind_Siliguri, Poppins } from 'next/font/google';
 import { getI18n } from '@/i18n/server';
 import { I18nProvider } from '@/i18n/provider';
 import './globals.css';
@@ -8,6 +8,14 @@ const hind = Hind_Siliguri({
   subsets: ['bengali', 'latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-hind',
+  display: 'swap',
+});
+
+// English headings. Bangla letters fall back to Hind Siliguri (see --font-display).
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-poppins',
   display: 'swap',
 });
 
@@ -26,14 +34,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#2f52cc',
+  themeColor: '#6d0f2b',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { locale, t } = await getI18n();
 
   return (
-    <html lang={locale} className={hind.variable}>
+    <html lang={locale} className={`${hind.variable} ${poppins.variable}`}>
       <body className="min-h-dvh font-sans antialiased">
         <I18nProvider locale={locale} t={t}>
           {children}

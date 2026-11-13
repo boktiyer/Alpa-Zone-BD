@@ -139,7 +139,7 @@ export async function getWishlistProducts(): Promise<ProductCardData[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('wishlist')
-    .select('created_at, products(*, product_images(url, alt, is_primary, sort_order))')
+    .select('created_at, products(*, product_images(url, alt, is_primary, sort_order), product_variants(price, is_active))')
     .eq('user_id', profile.id)
     .order('created_at', { ascending: false });
 

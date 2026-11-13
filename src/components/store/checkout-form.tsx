@@ -39,7 +39,7 @@ export function CheckoutForm({
 
   const choice = (active: boolean) =>
     `flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition ${
-      active ? 'border-royal-600 ring-2 ring-royal-200' : 'border-zinc-300 hover:border-royal-400'
+      active ? 'border-brand ring-2 ring-gold/40' : 'border-zinc-300 hover:border-gold'
     }`;
 
   return (
@@ -109,12 +109,12 @@ export function CheckoutForm({
                     value={value}
                     checked={area === value}
                     onChange={() => setArea(value)}
-                    className="size-4 accent-royal-600"
+                    className="size-4 accent-brand"
                   />
                   <span className="flex-1 font-medium">
                     {value === 'dhaka' ? t.checkout.insideDhaka : t.checkout.outsideDhaka}
                   </span>
-                  <span className="font-bold text-royal-700">
+                  <span className="font-bold text-brand">
                     {formatPrice(DELIVERY_CHARGE[value], locale)}
                   </span>
                 </label>
@@ -140,7 +140,7 @@ export function CheckoutForm({
                   value={value}
                   checked={method === value}
                   onChange={() => setMethod(value)}
-                  className="size-4 accent-royal-600"
+                  className="size-4 accent-brand"
                 />
                 <span>
                   <span className="block font-medium">
@@ -154,7 +154,7 @@ export function CheckoutForm({
             ))}
           </div>
 
-          <div className="mt-4 rounded-xl border-2 border-dashed border-royal-300 bg-royal-50 p-4">
+          <div className="mt-4 rounded-xl border-2 border-dashed border-gold bg-blush p-4">
             <h3 className="font-semibold">{t.checkout.payNow}</h3>
 
             {method === 'cod' && (
@@ -166,7 +166,7 @@ export function CheckoutForm({
                       key={value}
                       className={`cursor-pointer rounded-lg border px-4 py-2 text-sm font-semibold ${
                         wallet === value
-                          ? 'border-royal-600 bg-royal-600 text-white'
+                          ? 'border-brand bg-brand text-white'
                           : 'border-zinc-300 bg-white'
                       }`}
                     >
@@ -194,7 +194,7 @@ export function CheckoutForm({
               </div>
               <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                 <dt>{t.checkout.amountToSend}</dt>
-                <dd className="text-xl font-bold text-royal-700">{formatPrice(payNow, locale)}</dd>
+                <dd className="text-xl font-bold text-brand">{formatPrice(payNow, locale)}</dd>
               </div>
               {payLater > 0 && (
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3">
@@ -241,7 +241,7 @@ export function CheckoutForm({
             </div>
             <div className="flex justify-between border-t border-zinc-200 pt-2 text-lg font-bold">
               <dt>{t.cart.total}</dt>
-              <dd className="text-royal-700">{formatPrice(total, locale)}</dd>
+              <dd className="text-brand">{formatPrice(total, locale)}</dd>
             </div>
           </dl>
 

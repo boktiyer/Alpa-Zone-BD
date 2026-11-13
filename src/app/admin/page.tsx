@@ -99,7 +99,7 @@ export default async function AdminDashboardPage() {
             </>
           );
           const box = `block h-full rounded-xl border p-4 ${
-            stat.highlight ? 'border-royal-600 bg-royal-600 text-white' : 'border-zinc-200 bg-white'
+            stat.highlight ? 'border-brand bg-brand text-white' : 'border-zinc-200 bg-white'
           }`;
           return (
             <li key={stat.label}>
@@ -127,7 +127,7 @@ export default async function AdminDashboardPage() {
               </span>
               <span
                 title={`${bar.day}: ${formatPrice(bar.total, locale)}`}
-                className={`mt-1 block rounded-t ${bar.day === today ? 'bg-royal-700' : 'bg-royal-400'}`}
+                className={`mt-1 block rounded-t ${bar.day === today ? 'bg-brand-dark' : 'bg-brand-soft'}`}
                 style={{ height: `${Math.max(2, (bar.total / chartMax) * 80)}%` }}
               />
               <span className="mt-1 text-[10px] text-zinc-500 sm:text-xs">
@@ -143,7 +143,7 @@ export default async function AdminDashboardPage() {
           <h2 className="text-lg font-semibold">
             {L('কম স্টকের সতর্কতা', 'Low stock alert')} (≤ {formatNumber(LOW_STOCK, locale)})
           </h2>
-          <Link href="/admin/stock?low=1" className="text-sm font-semibold text-royal-700 hover:underline">
+          <Link href="/admin/stock?low=1" className="text-sm font-semibold text-brand hover:underline">
             {L('স্টক আপডেট করুন', 'Update stock')} →
           </Link>
         </div>

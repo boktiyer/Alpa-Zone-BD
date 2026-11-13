@@ -20,11 +20,11 @@ export default async function OrderPage({ params }: Props) {
   return (
     <div className="container-page max-w-3xl pt-8">
       <nav aria-label="Breadcrumb" className="mb-4 text-sm text-zinc-500">
-        <Link href="/account" className="hover:text-royal-700">
+        <Link href="/account" className="hover:text-brand">
           {t.account.title}
         </Link>
         <span className="mx-1.5">/</span>
-        <Link href="/account/orders" className="hover:text-royal-700">
+        <Link href="/account/orders" className="hover:text-brand">
           {t.nav.orders}
         </Link>
         <span className="mx-1.5">/</span>

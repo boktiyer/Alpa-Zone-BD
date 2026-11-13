@@ -165,7 +165,7 @@ export async function ProductListing({
           name="discount"
           value="1"
           defaultChecked={discountOnly}
-          className="size-4 accent-royal-600"
+          className="size-4 accent-brand"
         />
         {t.list.discountOnly}
       </label>
@@ -208,7 +208,7 @@ export async function ProductListing({
         </p>
 
         {products.length === 0 ? (
-          <p className="mt-4 rounded-lg bg-royal-50 p-4 text-sm text-royal-900">{t.list.none}</p>
+          <p className="mt-4 rounded-lg bg-blush p-4 text-sm text-brand-dark">{t.list.none}</p>
         ) : (
           <div className="mt-4">
             <ProductGrid products={products} locale={locale} t={t} />

@@ -43,7 +43,7 @@ export function MobileNav({ cartCount, loggedIn }: { cartCount: number; loggedIn
   return (
     <nav
       aria-label="Mobile"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-sand pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-ivory pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <ul className="grid grid-cols-5">
         {items.map(({ href, label, icon: IconComponent, active, badge }) => (
@@ -52,13 +52,13 @@ export function MobileNav({ cartCount, loggedIn }: { cartCount: number; loggedIn
               href={href}
               aria-current={active ? 'page' : undefined}
               className={`flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium ${
-                active ? 'text-maroon' : 'text-zinc-700'
+                active ? 'text-brand' : 'text-zinc-700'
               }`}
             >
               <span className="relative">
                 <IconComponent className="size-6" />
                 {badge ? (
-                  <span className="absolute -right-2.5 -top-1.5 grid min-w-[18px] place-items-center rounded-full bg-maroon px-1 text-[10px] font-bold leading-[18px] text-white">
+                  <span className="absolute -right-2.5 -top-1.5 grid min-w-[18px] place-items-center rounded-full bg-sale px-1 text-[10px] font-bold leading-[18px] text-white">
                     {formatNumber(badge, locale)}
                   </span>
                 ) : null}

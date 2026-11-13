@@ -186,6 +186,8 @@ export interface Banner {
 // ---- Shapes returned by joined queries -------------------------------
 export type ProductCardData = Product & {
   product_images: Pick<ProductImage, 'url' | 'alt' | 'is_primary' | 'sort_order'>[];
+  /** Only loaded where the card needs the lowest price (not on the wishlist page). */
+  product_variants?: Pick<ProductVariant, 'price' | 'is_active'>[];
 };
 
 export type ProductDetail = Product & {

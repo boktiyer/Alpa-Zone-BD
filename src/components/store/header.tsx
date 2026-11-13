@@ -1,13 +1,20 @@
 import Link from 'next/link';
 import { getI18n } from '@/i18n/server';
 import { tr } from '@/i18n/config';
-import { formatNumber } from '@/lib/format';
 import { getCurrentProfile } from '@/lib/auth';
 import { getCartCount } from '@/lib/cart';
 import { getCategories } from '@/lib/queries';
+import { categoryPath } from '@/lib/category-url';
 import { Logo } from '@/components/logo';
 import { LanguageToggle } from '@/components/language-toggle';
-import { CartIcon, HeartIcon, SearchIcon, UserIcon } from '@/components/icons';
+import { HeartIcon, SearchIcon, UserIcon } from '@/components/icons';
+import {
+  CartLink,
+  HeaderShell,
+  MobileMenu,
+  NavLinks,
+  type NavItem,
+} from '@/components/store/header-client';
 
 function SearchForm({ placeholder, label }: { placeholder: string; label: string }) {
   return (
@@ -17,12 +24,12 @@ function SearchForm({ placeholder, label }: { placeholder: string; label: string
         name="q"
         aria-label={label}
         placeholder={placeholder}
-        className="w-full rounded-full border-0 bg-white py-2 pl-4 pr-11 text-sm text-ink placeholder:text-zinc-500"
+        className="w-full rounded-full border border-border bg-white py-2 pl-4 pr-11 text-sm text-ink placeholder:text-zinc-500 focus:border-brand focus:outline-none"
       />
       <button
         type="submit"
         aria-label={label}
-        className="absolute right-1 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-royal-600 text-white hover:bg-royal-700"
+        className="absolute right-1 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
       >
         <SearchIcon className="size-4" />
       </button>
@@ -38,109 +45,95 @@ export async function Header() {
     getCartCount(),
   ]);
   const topCategories = categories.filter((category) => !category.parent_id);
+  // The admin link is only ever rendered for admins. /admin itself is also
+  // protected by the proxy, the admin layout and Row Level Security.
+  const isAdmin = profile?.role === 'admin';
   const iconLink =
-    'relative size-10 place-items-center rounded-full text-ink hover:bg-black/10';
+    'relative size-10 place-items-center rounded-full text-ink transition-colors hover:bg-brand/10 hover:text-brand';
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { href: '/', label: t.nav.home },
     { href: '/products', label: t.nav.shop },
     ...topCategories.map((category) => ({
-      href: `/category/${category.slug}`,
+      href: categoryPath(category.slug),
       label: tr(category, 'name', locale),
     })),
     { href: '/track-order', label: t.nav.track },
   ];
+  const accountItems: NavItem[] = profile
+    ? [
+        { href: '/account', label: t.nav.account },
+        { href: '/account/orders', label: t.nav.orders },
+        { href: '/wishlist', label: t.nav.wishlist },
+      ]
+    : [
+        { href: '/login', label: t.nav.login },
+        { href: '/signup', label: t.nav.signup },
+      ];
 
   return (
     <>
-      <div className="bg-ink text-white">
+      <div className="bg-brand-dark text-white">
         <p className="container-page py-1.5 text-center text-xs sm:text-sm">{t.topbar}</p>
       </div>
 
-      <header className="sticky top-0 z-40 shadow-md">
-        <div className="bg-sand">
-          <div className="container-page flex items-center gap-3 sm:gap-5">
-            <Link href="/" className="shrink-0">
-              <Logo tone="light" className="h-16 w-auto py-1.5 sm:h-20" />
-            </Link>
+      <HeaderShell>
+        <div className="container-page flex items-center gap-2 sm:gap-5">
+          <MobileMenu items={navItems} extra={accountItems} isAdmin={isAdmin} />
 
-            <div className="hidden flex-1 md:block md:max-w-xl">
-              <SearchForm placeholder={t.nav.search} label={t.nav.searchButton} />
-            </div>
+          <Link href="/" className="shrink-0">
+            <Logo
+              tone="light"
+              className="h-14 w-auto origin-left py-1 transition-transform duration-300 ease-soft group-data-[scrolled=true]/header:scale-[0.86] sm:h-[4.5rem]"
+            />
+          </Link>
 
-            <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
-              <LanguageToggle className="mr-1 text-ink" />
-
-              <Link
-                href="/wishlist"
-                aria-label={t.nav.wishlist}
-                className={`${iconLink} hidden md:grid`}
-              >
-                <HeartIcon className="size-6" />
-              </Link>
-
-              <Link
-                href="/cart"
-                aria-label={`${t.nav.cart} (${cartCount})`}
-                className={`${iconLink} grid`}
-              >
-                <CartIcon className="size-6" />
-                {cartCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-maroon px-1 text-xs font-bold leading-5 text-white">
-                    {formatNumber(cartCount, locale)}
-                  </span>
-                )}
-              </Link>
-
-              {profile ? (
-                <>
-                  {profile.role === 'admin' && (
-                    <Link
-                      href="/admin"
-                      className="hidden rounded-md bg-ink px-3 py-1.5 text-sm font-semibold text-white hover:bg-zinc-800 lg:inline-block"
-                    >
-                      {t.nav.admin}
-                    </Link>
-                  )}
-                  <Link
-                    href="/account"
-                    aria-label={t.nav.account}
-                    className={`${iconLink} hidden md:grid`}
-                  >
-                    <UserIcon className="size-6" />
-                  </Link>
-                </>
-              ) : (
-                <Link
-                  href="/login"
-                  className="rounded-md bg-royal-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-royal-700"
-                >
-                  {t.nav.login}
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <div className="container-page pb-2.5 md:hidden">
+          <div className="hidden flex-1 md:block md:max-w-xl">
             <SearchForm placeholder={t.nav.search} label={t.nav.searchButton} />
           </div>
-        </div>
-      </header>
 
-      <nav aria-label={t.nav.categories} className="border-t border-black/10 bg-sand shadow-sm">
-        <ul className="container-page no-scrollbar flex gap-1 overflow-x-auto py-1.5 text-sm font-medium">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="block whitespace-nowrap rounded-md px-3 py-1.5 hover:bg-black/10"
-              >
-                {item.label}
+          <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+            <LanguageToggle className="mr-1 hidden text-ink sm:inline-block" />
+
+            <Link
+              href="/wishlist"
+              aria-label={t.nav.wishlist}
+              className={`${iconLink} hidden md:grid`}
+            >
+              <HeartIcon className="size-6" />
+            </Link>
+
+            <CartLink count={cartCount} label={t.nav.cart} />
+
+            {profile ? (
+              <>
+                {isAdmin && (
+                  <Link href="/admin" className="btn-primary hidden min-h-9 px-3 py-1.5 text-sm lg:inline-flex">
+                    {t.nav.admin}
+                  </Link>
+                )}
+                <Link
+                  href="/account"
+                  aria-label={t.nav.account}
+                  className={`${iconLink} hidden md:grid`}
+                >
+                  <UserIcon className="size-6" />
+                </Link>
+              </>
+            ) : (
+              <Link href="/login" className="btn-primary min-h-9 px-3 py-1.5 text-sm">
+                {t.nav.login}
               </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+            )}
+          </div>
+        </div>
+
+        <div className="container-page pb-2.5 md:hidden">
+          <SearchForm placeholder={t.nav.search} label={t.nav.searchButton} />
+        </div>
+
+        <NavLinks items={navItems} label={t.nav.categories} />
+      </HeaderShell>
     </>
   );
 }

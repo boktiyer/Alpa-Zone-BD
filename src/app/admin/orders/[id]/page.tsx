@@ -39,7 +39,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
       <Notice params={notice} okText={L('সেভ হয়েছে।', 'Saved.')} />
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 print:hidden">
-        <Link href="/admin/orders" className="text-sm font-semibold text-royal-700 hover:underline">
+        <Link href="/admin/orders" className="text-sm font-semibold text-brand hover:underline">
           ← {t.admin.orders}
         </Link>
         <PrintButton>{L('ইনভয়েস প্রিন্ট করুন', 'Print invoice')}</PrintButton>
@@ -56,7 +56,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
               <p className="text-xs uppercase tracking-wide text-zinc-500">
                 {L('ইনভয়েস', 'Invoice')}
               </p>
-              <p className="text-xl font-bold text-royal-700">{order.order_number}</p>
+              <p className="text-xl font-bold text-brand">{order.order_number}</p>
               <p className="text-sm text-zinc-600">{formatDateTime(order.created_at, locale)}</p>
             </div>
           </header>
@@ -91,7 +91,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
 
           <div className="overflow-x-auto">
             <table className="w-full min-w-[420px] text-sm">
-              <thead className="bg-zinc-50">
+              <thead className="bg-brand">
                 <tr>
                   <th className={th}>{t.order.items}</th>
                   <th className={`${th} text-right`}>{L('দাম', 'Price')}</th>
@@ -247,7 +247,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
           {order.user_id && (
             <Link
               href={`/admin/customers/${order.user_id}`}
-              className="block text-sm font-semibold text-royal-700 hover:underline"
+              className="block text-sm font-semibold text-brand hover:underline"
             >
               {L('এই কাস্টমারের সব অর্ডার', "This customer's orders")} →
             </Link>

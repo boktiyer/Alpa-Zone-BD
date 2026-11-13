@@ -25,7 +25,7 @@ export default async function AdminStockPage({
   );
   const tab = (active: boolean) =>
     `rounded-full px-3 py-1 text-sm font-medium ${
-      active ? 'bg-royal-600 text-white' : 'border border-zinc-300 bg-white hover:border-royal-500'
+      active ? 'bg-brand text-white' : 'border border-zinc-300 bg-white hover:border-brand'
     }`;
 
   return (
@@ -50,7 +50,7 @@ export default async function AdminStockPage({
       ) : (
         <TableWrap>
           <table className="w-full min-w-[520px] text-sm">
-            <thead className="bg-zinc-50">
+            <thead className="bg-brand">
               <tr>
                 <th className={th}>{L('প্রোডাক্ট', 'Product')}</th>
                 <th className={th}>{L('সাইজ / রং', 'Size / colour')}</th>
@@ -64,7 +64,7 @@ export default async function AdminStockPage({
                   <td className={td}>
                     <Link
                       href={`/admin/products/${row.productId}`}
-                      className="font-medium text-royal-700 hover:underline"
+                      className="font-medium text-brand hover:underline"
                     >
                       {tr(row, 'name', locale)}
                     </Link>

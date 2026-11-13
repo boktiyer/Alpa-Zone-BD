@@ -64,7 +64,7 @@ export default async function AdminOrdersPage({
   };
   const tab = (active: boolean) =>
     `whitespace-nowrap rounded-full px-3 py-1 text-sm font-medium ${
-      active ? 'bg-royal-600 text-white' : 'border border-zinc-300 bg-white hover:border-royal-500'
+      active ? 'bg-brand text-white' : 'border border-zinc-300 bg-white hover:border-brand'
     }`;
 
   return (
@@ -109,7 +109,7 @@ export default async function AdminOrdersPage({
       ) : (
         <TableWrap>
           <table className="w-full min-w-[760px] text-sm">
-            <thead className="bg-zinc-50">
+            <thead className="bg-brand">
               <tr>
                 <th className={th}>{t.admin.orderNo}</th>
                 <th className={th}>{t.admin.customer}</th>
@@ -122,11 +122,11 @@ export default async function AdminOrdersPage({
             </thead>
             <tbody className="divide-y divide-zinc-100">
               {orders.map((order) => (
-                <tr key={order.id} className="hover:bg-royal-50/50">
+                <tr key={order.id} className="hover:bg-blush/60">
                   <td className={td}>
                     <Link
                       href={`/admin/orders/${order.id}`}
-                      className="font-bold text-royal-700 hover:underline"
+                      className="font-bold text-brand hover:underline"
                     >
                       {order.order_number}
                     </Link>

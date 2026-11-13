@@ -31,6 +31,10 @@ export function BannerSlider({ banners }: { banners: Banner[] }) {
 
   if (banners.length === 0) return null;
 
+  // The slide in view is fully visible; the others fade while they slide away.
+  const fade = (index: number) =>
+    `transition-opacity duration-500 ease-soft ${index === active ? 'opacity-100' : 'opacity-70'}`;
+
   return (
     <section
       aria-label="Banners"
@@ -75,8 +79,7 @@ export function BannerSlider({ banners }: { banners: Banner[] }) {
                   />
                 </>
               );
-              const artClass =
-                'relative block aspect-[2/1] w-full shrink-0 snap-center overflow-hidden bg-royal-900';
+              const artClass = `relative block aspect-[2/1] w-full shrink-0 snap-center overflow-hidden bg-brand-dark ${fade(index)}`;
 
               return banner.link_url ? (
                 <Link
@@ -97,7 +100,7 @@ export function BannerSlider({ banners }: { banners: Banner[] }) {
             return (
               <div
                 key={banner.id}
-                className="relative aspect-[2/1] w-full shrink-0 snap-center overflow-hidden bg-royal-900"
+                className={`relative aspect-[2/1] w-full shrink-0 snap-center overflow-hidden bg-brand-dark ${fade(index)}`}
               >
                 <Image
                   src={banner.image_url}
@@ -121,7 +124,7 @@ export function BannerSlider({ banners }: { banners: Banner[] }) {
                   {banner.link_url && (
                     <Link
                       href={banner.link_url}
-                      className="mt-1 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-royal-700 hover:bg-royal-50 sm:text-base"
+                      className="btn-secondary mt-1"
                     >
                       {t.home.shopNow}
                     </Link>
@@ -141,8 +144,8 @@ export function BannerSlider({ banners }: { banners: Banner[] }) {
                 aria-label={`${index + 1} / ${banners.length}`}
                 aria-current={index === active}
                 onClick={() => goTo(index)}
-                className={`h-2.5 rounded-full transition-all ${
-                  index === active ? 'w-7 bg-white' : 'w-2.5 bg-white/55 hover:bg-white/80'
+                className={`h-2.5 rounded-full shadow-sm transition-all duration-300 ${
+                  index === active ? 'w-7 bg-gold' : 'w-2.5 bg-white/70 hover:bg-white'
                 }`}
               />
             ))}

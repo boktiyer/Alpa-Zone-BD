@@ -32,7 +32,7 @@ export default async function AdminCustomersPage() {
       <PageTitle title={`${t.admin.customers} (${formatNumber(customers.length, locale)})`} />
       <TableWrap>
         <table className="w-full min-w-[640px] text-sm">
-          <thead className="bg-zinc-50">
+          <thead className="bg-brand">
             <tr>
               <th className={th}>{t.admin.customer}</th>
               <th className={th}>{t.auth.phone}</th>
@@ -45,11 +45,11 @@ export default async function AdminCustomersPage() {
             {customers.map((customer) => {
               const stat = stats.get(customer.id) ?? { orders: 0, spent: 0 };
               return (
-                <tr key={customer.id} className="hover:bg-royal-50/50">
+                <tr key={customer.id} className="hover:bg-blush/60">
                   <td className={td}>
                     <Link
                       href={`/admin/customers/${customer.id}`}
-                      className="font-semibold text-royal-700 hover:underline"
+                      className="font-semibold text-brand hover:underline"
                     >
                       {customer.full_name || '—'}
                     </Link>
