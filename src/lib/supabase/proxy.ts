@@ -17,11 +17,27 @@ function matches(pathname: string, prefix: string) {
  *  4. /login, /signup → sent home if already logged in
  */
 export async function updateSession(request: NextRequest) {
+  // Without these two settings nothing can work. Say so clearly instead of a
+  // bare "Internal Server Error" (the usual cause: they were not added on Vercel).
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key || !/^https:\/\/.+/.test(url)) {
+    const missing = [
+      !url ? 'NEXT_PUBLIC_SUPABASE_URL is missing' : !/^https:\/\/.+/.test(url) ? 'NEXT_PUBLIC_SUPABASE_URL must start with https://' : '',
+      !key ? 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is missing' : '',
+    ].filter(Boolean);
+    return new NextResponse(
+      `Site setup is not finished: ${missing.join('; ')}.\n` +
+        'Add it in Vercel → Project → Settings → Environment Variables, then Redeploy. See DEPLOY.md.',
+      { status: 503, headers: { 'content-type': 'text/plain; charset=utf-8' } },
+    );
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    url,
+    key,
     {
       cookies: {
         getAll() {
