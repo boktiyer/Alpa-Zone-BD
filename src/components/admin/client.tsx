@@ -138,7 +138,7 @@ async function uploadImages(bucket: string, files: File[]): Promise<{ urls: stri
 }
 
 /** Several pictures for a product. The first one is the main picture. */
-function ImagesField({ initial }: { initial: string[] }) {
+export function ImagesField({ initial }: { initial: string[] }) {
   const L = useL();
   const [images, setImages] = useState(initial);
   const [busy, setBusy] = useState(false);
@@ -184,8 +184,19 @@ function ImagesField({ initial }: { initial: string[] }) {
         </ul>
       )}
 
-      <label className="btn-outline cursor-pointer">
-        {busy ? L('আপলোড হচ্ছে…', 'Uploading…') : L('+ ছবি যোগ করুন', '+ Add pictures')}
+      <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center font-semibold text-royal-700 hover:border-royal-600 hover:bg-royal-50">
+        <span className="text-2xl leading-none" aria-hidden>
+          +
+        </span>
+        {busy
+          ? L('আপলোড হচ্ছে…', 'Uploading…')
+          : L('এখানে চাপ দিয়ে ছবি দিন', 'Tap here to add pictures')}
+        <span className="text-xs font-normal text-zinc-500">
+          {L(
+            'একসাথে কয়েকটা ছবি দেওয়া যায়। প্রথম ছবিটাই মূল ছবি।',
+            'You can pick several at once. The first picture is the main one.',
+          )}
+        </span>
         <input
           type="file"
           multiple
@@ -271,133 +282,3 @@ export function SingleImageField({
   );
 }
 
-// ---------------------------------------------------------------------
-// Product form parts: pictures + size/colour/stock/price variants
-// ---------------------------------------------------------------------
-
-export type VariantRow = {
-  id?: string;
-  size: string;
-  color: string;
-  stock: number;
-  price: number | null;
-};
-
-function VariantsField({ initial }: { initial: VariantRow[] }) {
-  const L = useL();
-  const [rows, setRows] = useState<(VariantRow & { key: string })[]>(
-    initial.map((row) => ({ ...row, key: row.id ?? crypto.randomUUID() })),
-  );
-  const update = (key: string, patch: Partial<VariantRow>) =>
-    setRows(rows.map((row) => (row.key === key ? { ...row, ...patch } : row)));
-
-  return (
-    <div>
-      <input
-        type="hidden"
-        name="variants"
-        value={JSON.stringify(rows.map(({ key: _key, ...row }) => row))}
-      />
-
-      {rows.length > 0 && (
-        <div className="mb-3 space-y-2">
-          {rows.map((row) => (
-            <div
-              key={row.key}
-              className="grid grid-cols-2 gap-2 rounded-lg border border-zinc-200 p-2 sm:grid-cols-[1fr_1fr_6rem_8rem_auto]"
-            >
-              <input
-                aria-label={L('সাইজ', 'Size')}
-                placeholder={L('সাইজ (M, 42…)', 'Size (M, 42…)')}
-                value={row.size}
-                onChange={(event) => update(row.key, { size: event.target.value })}
-                className="field"
-              />
-              <input
-                aria-label={L('রং', 'Colour')}
-                placeholder={L('রং', 'Colour')}
-                value={row.color}
-                onChange={(event) => update(row.key, { color: event.target.value })}
-                className="field"
-              />
-              <input
-                type="number"
-                min={0}
-                step={1}
-                aria-label={L('স্টক', 'Stock')}
-                placeholder={L('স্টক', 'Stock')}
-                value={row.stock}
-                onChange={(event) => update(row.key, { stock: Number(event.target.value) })}
-                className="field"
-              />
-              <input
-                type="number"
-                min={0}
-                step="0.01"
-                aria-label={L('আলাদা দাম', 'Own price')}
-                placeholder={L('আলাদা দাম', 'Own price')}
-                value={row.price ?? ''}
-                onChange={(event) =>
-                  update(row.key, {
-                    price: event.target.value === '' ? null : Number(event.target.value),
-                  })
-                }
-                className="field"
-              />
-              <button
-                type="button"
-                onClick={() => setRows(rows.filter((item) => item.key !== row.key))}
-                className="col-span-2 text-sm font-semibold text-red-700 hover:underline sm:col-span-1"
-              >
-                {L('সরান', 'Remove')}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <button
-        type="button"
-        className="btn-outline"
-        onClick={() =>
-          setRows([
-            ...rows,
-            { key: crypto.randomUUID(), size: '', color: '', stock: 0, price: null },
-          ])
-        }
-      >
-        {L('+ ভ্যারিয়েন্ট যোগ করুন', '+ Add variant')}
-      </button>
-      <p className="mt-1 text-xs text-zinc-500">
-        {L(
-          '"আলাদা দাম" ফাঁকা রাখলে প্রোডাক্টের দামই ধরা হবে। ভ্যারিয়েন্ট থাকলে উপরের স্টক ব্যবহার হয় না।',
-          'Leave "own price" empty to use the product price. With variants, the stock field above is not used.',
-        )}
-      </p>
-    </div>
-  );
-}
-
-export function ProductMediaFields({
-  images,
-  variants,
-}: {
-  images: string[];
-  variants: VariantRow[];
-}) {
-  const L = useL();
-  return (
-    <>
-      <fieldset className="rounded-xl border border-zinc-200 bg-white p-4">
-        <legend className="px-1 font-semibold">{L('ছবি', 'Pictures')}</legend>
-        <ImagesField initial={images} />
-      </fieldset>
-      <fieldset className="rounded-xl border border-zinc-200 bg-white p-4">
-        <legend className="px-1 font-semibold">
-          {L('সাইজ / রং / স্টক', 'Size / colour / stock')}
-        </legend>
-        <VariantsField initial={variants} />
-      </fieldset>
-    </>
-  );
-}

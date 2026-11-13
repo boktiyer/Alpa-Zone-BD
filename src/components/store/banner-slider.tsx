@@ -52,10 +52,52 @@ export function BannerSlider({ banners }: { banners: Banner[] }) {
             const title = tr(banner, 'title', locale);
             const subtitle = tr(banner, 'subtitle', locale);
 
+            // A banner without a title is finished artwork (its text is part of
+            // the picture): show all of it, undarkened, and make it one big link.
+            if (!title && !subtitle) {
+              const art = (
+                <>
+                  <Image
+                    src={banner.image_url}
+                    alt=""
+                    aria-hidden
+                    fill
+                    sizes="128px"
+                    className="scale-110 object-cover blur-2xl"
+                  />
+                  <Image
+                    src={banner.image_url}
+                    alt=""
+                    fill
+                    priority={index === 0}
+                    sizes="(min-width: 1280px) 1248px, 100vw"
+                    className="object-contain"
+                  />
+                </>
+              );
+              const artClass =
+                'relative block aspect-[2/1] w-full shrink-0 snap-center overflow-hidden bg-royal-900';
+
+              return banner.link_url ? (
+                <Link
+                  key={banner.id}
+                  href={banner.link_url}
+                  aria-label={t.home.shopNow}
+                  className={artClass}
+                >
+                  {art}
+                </Link>
+              ) : (
+                <div key={banner.id} className={artClass}>
+                  {art}
+                </div>
+              );
+            }
+
             return (
               <div
                 key={banner.id}
-                className="relative aspect-[16/9] w-full shrink-0 snap-center overflow-hidden bg-royal-900 sm:aspect-[16/6]"
+                className="relative aspect-[2/1] w-full shrink-0 snap-center overflow-hidden bg-royal-900"
               >
                 <Image
                   src={banner.image_url}

@@ -114,25 +114,37 @@ export async function deleteCategory(form: FormData) {
 
 type VariantInput = { id?: string; size: string; color: string; stock: number; price: number | null };
 
+/**
+ * The forms ask for a "price" and an optional "discount price".
+ * The database stores what the customer pays (price) and the crossed-out
+ * old price (compare_at_price), so a discount swaps the two.
+ */
+function readPrices(form: FormData, path: string) {
+  const regular = num(form, 'regular_price');
+  const discount = num(form, 'discount_price');
+  if (regular === null || Number.isNaN(regular)) fail(path, 'Price must be a number.');
+  if (Number.isNaN(discount)) fail(path, 'Discount price must be a number.');
+  if (discount === null) return { price: regular, compare_at_price: null };
+  if (discount >= regular) {
+    fail(path, 'Discount price must be lower than the price (or leave it empty).');
+  }
+  return { price: discount, compare_at_price: regular };
+}
+
 export async function saveProduct(form: FormData) {
   const supabase = await requireAdmin();
   const id = str(form, 'id');
   const path = id ? `/admin/products/${id}` : '/admin/products/new';
 
-  const nameEn = str(form, 'name_en');
-  const nameBn = str(form, 'name_bn');
+  // One name is enough: the other language falls back to it.
+  const nameEn = str(form, 'name_en') || str(form, 'name_bn');
+  const nameBn = str(form, 'name_bn') || nameEn;
   const categoryId = str(form, 'category_id');
-  const price = num(form, 'price');
-  const compareAt = num(form, 'compare_at_price');
   const stock = num(form, 'stock') ?? 0;
 
   if (id && !isId(id)) fail('/admin/products', 'Invalid product.');
-  if (!nameEn || !nameBn) fail(path, 'Both names are required.');
-  if (price === null || Number.isNaN(price)) fail(path, 'Price must be a number.');
-  if (Number.isNaN(compareAt)) fail(path, 'Old price must be a number.');
-  if (compareAt !== null && compareAt <= price) {
-    fail(path, 'Old price must be higher than the selling price (or leave it empty).');
-  }
+  if (!nameEn) fail(path, 'Please write the product name.');
+  const { price, compare_at_price: compareAt } = readPrices(form, path);
   if (Number.isNaN(stock) || !Number.isInteger(stock)) fail(path, 'Stock must be a whole number.');
   if (categoryId && !isId(categoryId)) fail(path, 'Invalid category.');
 
@@ -238,7 +250,34 @@ export async function saveProduct(form: FormData) {
     (oldImages ?? []).map((image) => image.url).filter((url) => !images.includes(url)),
   );
 
-  done(editPath);
+  // A new product goes back to the list (ready to add the next one);
+  // an edited product stays open.
+  done(id ? editPath : '/admin/products');
+}
+
+/** Change price / discount straight from the product list. */
+export async function quickPrice(form: FormData) {
+  const supabase = await requireAdmin();
+  const path = '/admin/products';
+  const id = str(form, 'id');
+  if (!isId(id)) fail(path, 'Invalid product.');
+  const { error } = await supabase.from('products').update(readPrices(form, path)).eq('id', id);
+  if (error) fail(path, dbMessage(error));
+  done(path);
+}
+
+/** Show or hide a product on the site without deleting it. */
+export async function toggleProduct(form: FormData) {
+  const supabase = await requireAdmin();
+  const path = '/admin/products';
+  const id = str(form, 'id');
+  if (!isId(id)) fail(path, 'Invalid product.');
+  const { error } = await supabase
+    .from('products')
+    .update({ is_active: str(form, 'active') === '1' })
+    .eq('id', id);
+  if (error) fail(path, dbMessage(error));
+  done(path);
 }
 
 export async function deleteProduct(form: FormData) {
