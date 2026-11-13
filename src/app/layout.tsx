@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Hind_Siliguri, Poppins } from 'next/font/google';
 import { getI18n } from '@/i18n/server';
 import { I18nProvider } from '@/i18n/provider';
+import { RecoveryLinkCatcher } from '@/components/recovery-link-catcher';
 import './globals.css';
 
 const hind = Hind_Siliguri({
@@ -44,6 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale} className={`${hind.variable} ${poppins.variable}`}>
       <body className="min-h-dvh font-sans antialiased">
         <I18nProvider locale={locale} t={t}>
+          <RecoveryLinkCatcher />
           {children}
         </I18nProvider>
       </body>

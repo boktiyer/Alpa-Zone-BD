@@ -88,6 +88,14 @@ export function AuthForm({
           )}
         </label>
 
+        {!isSignup && (
+          <p className="-mt-1 text-right text-sm">
+            <Link href="/forgot-password" className="font-semibold text-brand hover:underline">
+              {t.auth.forgotLink}
+            </Link>
+          </p>
+        )}
+
         <button type="submit" disabled={pending} className="btn-primary w-full">
           {pending ? t.auth.pleaseWait : isSignup ? t.auth.signupButton : t.auth.loginButton}
         </button>
