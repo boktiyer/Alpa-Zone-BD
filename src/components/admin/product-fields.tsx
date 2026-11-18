@@ -183,7 +183,7 @@ export function VariantsField({
                 className={`min-w-12 rounded-lg border px-3 py-2 text-sm font-semibold ${
                   on
                     ? 'border-brand bg-brand text-white'
-                    : 'border-zinc-300 bg-white hover:border-brand'
+                    : 'border-border bg-white hover:border-brand'
                 }`}
               >
                 {size}
@@ -240,7 +240,7 @@ export function VariantsField({
             {rows.map((row) => (
               <div
                 key={row.key}
-                className="grid grid-cols-2 items-end gap-2 rounded-lg border border-zinc-200 p-2 sm:grid-cols-[1fr_1fr_6rem_8rem_auto]"
+                className="grid grid-cols-2 items-end gap-2 rounded-lg border border-border p-2 sm:grid-cols-[1fr_1fr_6rem_8rem_auto]"
               >
                 <label className="text-xs font-medium text-zinc-600">
                   {L('সাইজ', 'Size')}

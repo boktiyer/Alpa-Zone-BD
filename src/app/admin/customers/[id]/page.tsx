@@ -63,7 +63,7 @@ export default async function AdminCustomerPage({ params }: { params: Promise<{ 
                 <th className={th}>{t.admin.date}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-border/70">
               {orders.map((order) => (
                 <tr key={order.id}>
                   <td className={td}>

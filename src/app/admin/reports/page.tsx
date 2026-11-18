@@ -103,7 +103,7 @@ export default async function AdminReportsPage({
                 <th className={`${th} text-right`}>{L('মোট', 'Total')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-border/70">
               {lines.map(([key, line]) => (
                 <tr key={key}>
                   <td className={`${td} font-medium`}>{key}</td>

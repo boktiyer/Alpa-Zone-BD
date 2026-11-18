@@ -6,31 +6,37 @@
  * To re-brand the whole site, change these values only — nothing is hardcoded elsewhere.
  */
 @theme {
-  /* Deep Maroon (brand) */
-  --color-brand: #6d0f2b;
-  --color-brand-dark: #4a0a1d;
+  /* ALPA ZONE BD palette — "Style Beyond Ordinary"
+     Deep Burgundy #35101C · Primary Maroon #6D0F2B · Champagne Gold #D3B17B
+     Warm Ivory #F8F5F0 · White #FFFFFF · Charcoal #292526 · Soft Beige #E9E0D7 */
+  --color-brand: #6d0f2b; /* Primary Maroon */
+  --color-brand-dark: #35101c; /* Deep Burgundy */
   --color-brand-soft: #8e1b3f;
 
   /* Surfaces */
-  --color-ivory: #fbf3e8; /* navbar */
-  --color-page: #fffcf8; /* page background */
-  --color-blush: #fbeff2; /* soft panels, skeletons */
-  --color-footer: #2a0610; /* footer, admin sidebar */
-  --color-border: #eadfd6;
+  --color-ivory: #ffffff; /* header, phone menu, bottom bar */
+  --color-page: #f8f5f0; /* Warm Ivory page background */
+  --color-blush: #f2ebe3; /* soft panels, skeletons (between ivory and beige) */
+  --color-beige: #e9e0d7; /* Soft Beige */
+  --color-footer: #35101c; /* footer, admin bar */
+  --color-border: #e9e0d7;
+  --color-border-strong: #a99887; /* form inputs: visible edge (3:1) */
 
   /* Accents */
-  --color-gold: #c9a24b;
-  --color-sale: #e5484d;
+  --color-gold: #d3b17b; /* Champagne Gold: fills, and text on dark backgrounds */
+  --color-gold-deep: #8a6a33; /* gold that stays readable as text on light backgrounds */
+  --color-sale: #c8323a;
   --color-whatsapp: #25d366;
 
   /* Text */
-  --color-ink: #1f1417;
+  --color-ink: #292526; /* Charcoal */
   --color-paper: #ffffff;
 
-  /* Hind Siliguri covers Bangla + English body text; Poppins is for English headings
-     (Bangla letters in a heading fall back to Hind Siliguri). */
-  --font-sans: var(--font-hind), ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
-  --font-display: var(--font-poppins), var(--font-hind), ui-sans-serif, system-ui, sans-serif;
+  /* Body: DM Sans for English. DM Sans has no Bangla letters, so the browser
+     takes those from Hind Siliguri, letter by letter.
+     Headings: Cormorant Garamond for English; Bangla again falls back to Hind Siliguri. */
+  --font-sans: var(--font-dm), var(--font-hind), ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+  --font-display: var(--font-cormorant), var(--font-hind), Georgia, 'Times New Roman', serif;
 
   /* Motion: soft easing, 0.3–0.6s */
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -113,7 +119,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
   }
 }
@@ -202,7 +208,7 @@
   .field {
     width: 100%;
     border-radius: 0.75rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-strong);
     background-color: #fff;
     padding: 0.625rem 0.75rem;
   }
@@ -226,7 +232,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    box-shadow: 0 14px 30px -12px rgb(74 10 29 / 0.35);
+    box-shadow: 0 14px 30px -12px rgb(53 16 28 / 0.3);
     opacity: 0;
     pointer-events: none;
     transition: opacity 350ms var(--ease-soft);
@@ -237,6 +243,34 @@
     }
     .card-lift:hover::after {
       opacity: 1;
+    }
+  }
+
+  /* Tap / click: the card presses in a little, like a real button.
+     (Product cards: only when the link is pressed, not the wishlist heart.) */
+  a.card-lift:active,
+  .card-lift:has(> a:active) {
+    transform: scale(0.97);
+    transition-duration: 120ms;
+  }
+
+  /* A soft band of light that sweeps across a product photo on hover. */
+  .card-sheen {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      110deg,
+      transparent 35%,
+      rgb(255 255 255 / 0.3) 50%,
+      transparent 65%
+    );
+    transform: translateX(-110%);
+  }
+  @media (hover: hover) {
+    .group:hover .card-sheen {
+      transform: translateX(110%);
+      transition: transform 900ms var(--ease-soft);
     }
   }
 
@@ -260,7 +294,9 @@
   }
   .reveal-shown.stagger > *,
   .reveal-shown .stagger > * {
-    animation: fade-in 0.5s var(--ease-soft) both;
+    /* "backwards", not "both": once finished, the animation lets go of transform,
+       so the cards' hover lift and tap press still work. */
+    animation: fade-in 0.5s var(--ease-soft) backwards;
   }
   .stagger > *:nth-child(2) {
     animation-delay: 60ms;

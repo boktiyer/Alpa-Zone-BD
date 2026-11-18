@@ -36,7 +36,12 @@ export default async function AdminOrdersPage({
     ? (params.status as OrderStatus)
     : undefined;
   const payment = params.payment === 'pending' ? ('pending' as PaymentStatus) : undefined;
-  const q = (params.q ?? '').replace(/[^a-zA-Z0-9-]/g, '').slice(0, 30);
+  // Letters (Bangla too), digits and dashes only, so the text is safe inside the filter.
+  const q = (params.q ?? '')
+    .replace(/[^\p{L}\p{M}\p{N}\s-]/gu, ' ')
+    .trim()
+    .slice(0, 40)
+    .replace(/\s+/g, '%');
   const page = Math.max(1, Math.floor(Number(params.page)) || 1);
 
   let query = supabase
@@ -48,7 +53,11 @@ export default async function AdminOrdersPage({
     .order('created_at', { ascending: false });
   if (status) query = query.eq('status', status);
   if (payment) query = query.eq('payment_status', payment).neq('status', 'cancelled');
-  if (q) query = query.or(`order_number.ilike.%${q}%,phone.ilike.%${q}%,transaction_id.ilike.%${q}%`);
+  if (q) {
+    query = query.or(
+      `order_number.ilike.%${q}%,phone.ilike.%${q}%,transaction_id.ilike.%${q}%,customer_name.ilike.%${q}%`,
+    );
+  }
 
   const { data, count, error } = await query.range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
   if (error && error.code !== 'PGRST103') console.error(`[admin] orders: ${error.message}`);
@@ -64,7 +73,7 @@ export default async function AdminOrdersPage({
   };
   const tab = (active: boolean) =>
     `whitespace-nowrap rounded-full px-3 py-1 text-sm font-medium ${
-      active ? 'bg-brand text-white' : 'border border-zinc-300 bg-white hover:border-brand'
+      active ? 'bg-brand text-white' : 'border border-border bg-white hover:border-brand'
     }`;
 
   return (
@@ -96,7 +105,7 @@ export default async function AdminOrdersPage({
           type="search"
           name="q"
           defaultValue={q}
-          placeholder={L('অর্ডার নম্বর / ফোন / TrxID', 'Order number / phone / TrxID')}
+          placeholder={L('অর্ডার নম্বর / নাম / ফোন / TrxID', 'Order number / name / phone / TrxID')}
           className="field"
         />
         <button type="submit" className="btn-outline shrink-0">
@@ -120,7 +129,7 @@ export default async function AdminOrdersPage({
                 <th className={th}>{t.admin.date}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-border/70">
               {orders.map((order) => (
                 <tr key={order.id} className="hover:bg-blush/60">
                   <td className={td}>

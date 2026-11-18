@@ -28,11 +28,11 @@ export default async function CheckoutPage() {
     <div className="container-page pt-6">
       <h1 className="text-2xl font-bold sm:text-3xl">{t.checkout.title}</h1>
 
-      <section className="mt-5 rounded-2xl border border-zinc-200 bg-white">
-        <h2 className="border-b border-zinc-200 px-4 py-3 font-semibold sm:px-6">
+      <section className="mt-5 rounded-2xl border border-border bg-white">
+        <h2 className="border-b border-border px-4 py-3 font-semibold sm:px-6">
           {t.order.items} ({formatNumber(cart.count, locale)})
         </h2>
-        <ul className="divide-y divide-zinc-100 text-sm">
+        <ul className="divide-y divide-border/70 text-sm">
           {cart.lines.map((line) => (
             <li key={line.id} className="flex justify-between gap-3 px-4 py-2.5 sm:px-6">
               <span>

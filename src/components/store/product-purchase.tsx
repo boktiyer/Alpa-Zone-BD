@@ -96,7 +96,7 @@ export function ProductPurchase({
         ? 'border-brand bg-brand text-white'
         : enabled
           ? 'border-border bg-white hover:border-brand hover:text-brand'
-          : 'border-zinc-200 bg-white text-zinc-400 line-through'
+          : 'border-border bg-white text-zinc-400 line-through'
     }`;
 
   const pick = (kind: 'size' | 'color', value: string) => {

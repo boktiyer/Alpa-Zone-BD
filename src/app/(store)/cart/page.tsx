@@ -35,14 +35,14 @@ export default async function CartPage() {
       <h1 className="text-2xl font-bold sm:text-3xl">{t.cart.title}</h1>
 
       <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_22rem]">
-        <ul className="divide-y divide-zinc-200 self-start rounded-2xl border border-zinc-200 bg-white">
+        <ul className="divide-y divide-zinc-200 self-start rounded-2xl border border-border bg-white">
           {cart.lines.map((line) => (
             <CartLineRow key={line.id} line={line} />
           ))}
         </ul>
 
         <aside>
-          <div className="sticky top-28 space-y-4 rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
+          <div className="sticky top-28 space-y-4 rounded-2xl border border-border bg-white p-4 sm:p-6">
             <CouponForm appliedCode={coupon?.code ?? null} />
 
             <dl className="space-y-2 text-sm">
@@ -56,7 +56,7 @@ export default async function CartPage() {
                   <dd>− {formatPrice(discount, locale)}</dd>
                 </div>
               )}
-              <div className="flex justify-between border-t border-zinc-200 pt-2 text-lg font-bold">
+              <div className="flex justify-between border-t border-border pt-2 text-lg font-bold">
                 <dt>{t.cart.total}</dt>
                 <dd className="text-brand">{formatPrice(cart.subtotal - discount, locale)}</dd>
               </div>

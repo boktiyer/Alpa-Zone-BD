@@ -2,9 +2,13 @@ import { useId } from 'react';
 
 /**
  * Alpa Zone BD logo, drawn as vector so it stays sharp at any size:
- * red "A" with a white hanger, a red swoosh, the name and the "BD" badge.
- * tone="dark" (default) is for dark backgrounds (admin bar): bright red + glow.
- * tone="light" is for light backgrounds (store header, footer): deeper red, no glow.
+ * maroon "A" with a white hanger, a swoosh, the name and the "BD" badge.
+ *
+ * tone="light" — light backgrounds (store header): deep maroon A and name,
+ *                maroon swoosh with a champagne-gold highlight.
+ * tone="dark"  — the deep burgundy footer / admin bar (default): a brighter
+ *                maroon A edged in gold, a gold swoosh, ivory name, gold BD badge,
+ *                so the logo stays readable on the dark background.
  */
 export function Logo({
   className = '',
@@ -18,23 +22,39 @@ export function Logo({
   const body = `${id}-body`;
   const swoosh = `${id}-swoosh`;
 
+  const c = light
+    ? {
+        bodyTop: '#8e1b3f',
+        bodyBottom: '#35101c',
+        bodyEdge: '#6d0f2b',
+        swooshStops: ['#4a0d20', '#8e1b3f', '#6d0f2b'],
+        highlight: '#d3b17b',
+        name: '#6d0f2b',
+        badge: '#6d0f2b',
+        badgeText: '#ffffff',
+      }
+    : {
+        bodyTop: '#a3264c',
+        bodyBottom: '#6d0f2b',
+        bodyEdge: '#d3b17b',
+        swooshStops: ['#b8925a', '#e6cc98', '#c9a66b'],
+        highlight: '#f8f5f0',
+        name: '#f8f5f0',
+        badge: '#d3b17b',
+        badgeText: '#35101c',
+      };
+
   return (
-    <svg
-      viewBox="0 0 570 336"
-      role="img"
-      aria-label="Alpa Zone BD"
-      className={className}
-      style={light ? undefined : { filter: 'drop-shadow(0 0 7px rgba(255, 30, 30, 0.55))' }}
-    >
+    <svg viewBox="0 0 570 336" role="img" aria-label="Alpa Zone BD" className={className}>
       <defs>
         <linearGradient id={body} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#d40a0a" />
-          <stop offset="1" stopColor="#8f0000" />
+          <stop offset="0" stopColor={c.bodyTop} />
+          <stop offset="1" stopColor={c.bodyBottom} />
         </linearGradient>
         <linearGradient id={swoosh} x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="#b00000" />
-          <stop offset="0.6" stopColor="#f01414" />
-          <stop offset="1" stopColor="#c00000" />
+          <stop offset="0" stopColor={c.swooshStops[0]} />
+          <stop offset="0.6" stopColor={c.swooshStops[1]} />
+          <stop offset="1" stopColor={c.swooshStops[2]} />
         </linearGradient>
       </defs>
 
@@ -42,8 +62,8 @@ export function Logo({
       <path
         d="M262 14h76l122 222h-88l-72-92-72 92h-88z"
         fill={`url(#${body})`}
-        stroke="#ff3b3b"
-        strokeWidth="1.5"
+        stroke={c.bodyEdge}
+        strokeWidth={light ? 1.5 : 3}
         strokeLinejoin="round"
       />
 
@@ -61,7 +81,7 @@ export function Logo({
       <path
         d="M104 254C170 194 322 170 424 144c40-10 66-28 58-46"
         fill="none"
-        stroke="#fff"
+        stroke={c.highlight}
         strokeWidth="3.5"
         strokeLinecap="round"
         opacity="0.92"
@@ -75,19 +95,19 @@ export function Logo({
         lengthAdjust="spacingAndGlyphs"
         fontSize="70"
         fontWeight="700"
-        fill={light ? '#a80000' : '#ff2a2a'}
+        fill={c.name}
         style={{ fontFamily: 'var(--font-hind), Arial, sans-serif' }}
       >
         Alpa Zone
       </text>
-      <rect x="414" y="258" width="148" height="70" rx="13" fill="#d40a0a" />
+      <rect x="414" y="258" width="148" height="70" rx="13" fill={c.badge} />
       <text
         x="488"
         y="313"
         textAnchor="middle"
         fontSize="58"
         fontWeight="700"
-        fill="#fff"
+        fill={c.badgeText}
         style={{ fontFamily: 'var(--font-hind), Arial, sans-serif' }}
       >
         BD

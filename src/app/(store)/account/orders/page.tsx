@@ -38,7 +38,7 @@ export default async function MyOrdersPage() {
               <li key={order.id}>
                 <Link
                   href={`/account/orders/${order.order_number}`}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-gold"
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4 transition hover:border-gold"
                 >
                   <span>
                     <span className="block text-lg font-bold text-brand">

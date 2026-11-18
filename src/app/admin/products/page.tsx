@@ -192,7 +192,7 @@ export default async function AdminProductsPage({
                 </div>
 
                 {/* Quick price / discount */}
-                <details className="group mt-3 rounded-lg border border-zinc-200">
+                <details className="group mt-3 rounded-lg border border-border">
                   <summary className="cursor-pointer list-none px-3 py-2 text-sm font-semibold text-brand marker:hidden hover:bg-blush">
                     ৳ {L('দাম / ডিসকাউন্ট বদলান', 'Change price / discount')}
                   </summary>
@@ -239,7 +239,7 @@ export default async function AdminProductsPage({
                 <div className="mt-2 grid grid-cols-3 gap-2">
                   <Link
                     href={`/admin/products/${product.id}`}
-                    className={`${action} border-zinc-300 text-center hover:border-brand hover:text-brand`}
+                    className={`${action} border-border text-center hover:border-brand hover:text-brand`}
                   >
                     {L('এডিট', 'Edit')}
                   </Link>
@@ -250,7 +250,7 @@ export default async function AdminProductsPage({
                     <SubmitButton
                       className={`${action} ${
                         product.is_active
-                          ? 'border-zinc-300 hover:border-amber-500 hover:text-amber-700'
+                          ? 'border-border hover:border-amber-500 hover:text-amber-700'
                           : 'border-green-300 bg-green-50 text-green-800 hover:bg-green-100'
                       }`}
                     >

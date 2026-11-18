@@ -41,7 +41,7 @@ export default async function AdminCustomersPage() {
               <th className={th}>{L('যোগ দিয়েছেন', 'Joined')}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-100">
+          <tbody className="divide-y divide-border/70">
             {customers.map((customer) => {
               const stat = stats.get(customer.id) ?? { orders: 0, spent: 0 };
               return (

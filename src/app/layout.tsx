@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Hind_Siliguri, Poppins } from 'next/font/google';
+import { Cormorant_Garamond, DM_Sans, Hind_Siliguri } from 'next/font/google';
 import { getI18n } from '@/i18n/server';
 import { I18nProvider } from '@/i18n/provider';
 import { RecoveryLinkCatcher } from '@/components/recovery-link-catcher';
 import './globals.css';
 
+// Bangla text (body and headings).
 const hind = Hind_Siliguri({
   subsets: ['bengali', 'latin'],
   weight: ['400', '500', '600', '700'],
@@ -12,37 +13,48 @@ const hind = Hind_Siliguri({
   display: 'swap',
 });
 
+// English body text. Bangla letters fall back to Hind Siliguri (see --font-sans).
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm',
+  display: 'swap',
+});
+
 // English headings. Bangla letters fall back to Hind Siliguri (see --font-display).
-const poppins = Poppins({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['500', '600', '700'],
-  variable: '--font-poppins',
+  variable: '--font-cormorant',
   display: 'swap',
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getI18n();
+  const { locale, t } = await getI18n();
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
     title: { default: `${t.brand} — ${t.tagline}`, template: `%s | ${t.brand}` },
-    description: t.footer.about,
+    description: t.metaDescription,
+    applicationName: t.brand,
     openGraph: {
       siteName: t.brand,
       type: 'website',
+      locale: locale === 'bn' ? 'bn_BD' : 'en_US',
       images: ['/brand/logo-wide.jpg'],
     },
+    twitter: { card: 'summary_large_image' },
+    formatDetection: { telephone: false },
   };
 }
 
 export const viewport: Viewport = {
-  themeColor: '#6d0f2b',
+  themeColor: '#35101c',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { locale, t } = await getI18n();
 
   return (
-    <html lang={locale} className={`${hind.variable} ${poppins.variable}`}>
+    <html lang={locale} className={`${hind.variable} ${dmSans.variable} ${cormorant.variable}`}>
       <body className="min-h-dvh font-sans antialiased">
         <I18nProvider locale={locale} t={t}>
           <RecoveryLinkCatcher />

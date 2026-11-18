@@ -6,7 +6,7 @@ import { requestPasswordReset, updatePassword, type FormState } from '@/app/auth
 import { useI18n } from '@/i18n/provider';
 
 const card =
-  'mx-auto w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8';
+  'mx-auto w-full max-w-md rounded-2xl border border-border bg-white p-6 shadow-sm sm:p-8';
 
 function Notice({ state }: { state: FormState }) {
   return (

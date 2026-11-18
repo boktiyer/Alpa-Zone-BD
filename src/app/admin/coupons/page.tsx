@@ -144,7 +144,7 @@ export default async function AdminCouponsPage({
                 <th className={th} />
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-border/70">
               {coupons.map((coupon) => {
                 const expired = coupon.expires_at ? Date.parse(coupon.expires_at) < now : false;
                 return (

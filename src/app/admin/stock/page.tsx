@@ -25,7 +25,7 @@ export default async function AdminStockPage({
   );
   const tab = (active: boolean) =>
     `rounded-full px-3 py-1 text-sm font-medium ${
-      active ? 'bg-brand text-white' : 'border border-zinc-300 bg-white hover:border-brand'
+      active ? 'bg-brand text-white' : 'border border-border bg-white hover:border-brand'
     }`;
 
   return (
@@ -58,7 +58,7 @@ export default async function AdminStockPage({
                 <th className={th}>{L('স্টক', 'Stock')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-border/70">
               {rows.map((row) => (
                 <tr key={row.id} className={row.stock === 0 ? 'bg-red-50' : row.stock <= LOW_STOCK ? 'bg-amber-50' : ''}>
                   <td className={td}>

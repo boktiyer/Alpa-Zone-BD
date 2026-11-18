@@ -9,8 +9,9 @@ import {
   requireAdmin,
   shiftDay,
 } from '@/lib/admin';
-import { formatNumber, formatPrice } from '@/lib/format';
-import { card } from '@/components/admin/ui';
+import { formatDateTime, formatNumber, formatPrice } from '@/lib/format';
+import { Badge, card } from '@/components/admin/ui';
+import type { OrderStatus, PaymentStatus } from '@/types/database';
 
 const CHART_DAYS = 14;
 
@@ -22,7 +23,7 @@ export default async function AdminDashboardPage() {
   const monthStart = `${today.slice(0, 7)}-01`;
   const chartStart = shiftDay(today, -(CHART_DAYS - 1));
 
-  const [recent, totalOrders, pendingOrders, toVerify, stockRows] = await Promise.all([
+  const [recent, totalOrders, pendingOrders, toVerify, stockRows, latest] = await Promise.all([
     ordersBetween(chartStart < monthStart ? chartStart : monthStart, today),
     supabase.from('orders').select('*', { count: 'exact', head: true }),
     supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
@@ -32,7 +33,23 @@ export default async function AdminDashboardPage() {
       .eq('payment_status', 'pending')
       .neq('status', 'cancelled'),
     getStockRows(),
+    supabase
+      .from('orders')
+      .select('id, order_number, customer_name, total, status, payment_status, created_at')
+      .order('created_at', { ascending: false })
+      .limit(6),
   ]);
+  type LatestOrder = {
+    id: string;
+    order_number: string;
+    customer_name: string;
+    total: number;
+    status: OrderStatus;
+    payment_status: PaymentStatus;
+    created_at: string;
+  };
+  if (latest.error) console.error(`[admin] dashboard latest orders: ${latest.error.message}`);
+  const latestOrders = (latest.data as LatestOrder[] | null) ?? [];
 
   // Sales = total of every order that was not cancelled.
   const sold = recent.filter((order) => order.status !== 'cancelled');
@@ -99,7 +116,7 @@ export default async function AdminDashboardPage() {
             </>
           );
           const box = `block h-full rounded-xl border p-4 ${
-            stat.highlight ? 'border-brand bg-brand text-white' : 'border-zinc-200 bg-white'
+            stat.highlight ? 'border-brand bg-brand text-white' : 'border-border bg-white'
           }`;
           return (
             <li key={stat.label}>
@@ -139,7 +156,39 @@ export default async function AdminDashboardPage() {
       </section>
 
       <section className={`${card} mt-6`}>
-        <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-3">
+        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+          <h2 className="text-lg font-semibold">{L('সাম্প্রতিক অর্ডার', 'Recent orders')}</h2>
+          <Link href="/admin/orders" className="text-sm font-semibold text-brand hover:underline">
+            {L('সব অর্ডার', 'All orders')} →
+          </Link>
+        </div>
+        {latestOrders.length === 0 ? (
+          <p className="p-4 text-sm text-zinc-600">{L('এখনো কোনো অর্ডার নেই।', 'No orders yet.')}</p>
+        ) : (
+          <ul className="divide-y divide-border/70 text-sm">
+            {latestOrders.map((order) => (
+              <li key={order.id}>
+                <Link
+                  href={`/admin/orders/${order.id}`}
+                  className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5 transition-colors hover:bg-blush"
+                >
+                  <span className="font-semibold text-brand">{order.order_number}</span>
+                  <span className="min-w-0 flex-1 truncate">{order.customer_name}</span>
+                  <span className="hidden text-zinc-500 sm:inline">
+                    {formatDateTime(order.created_at, locale)}
+                  </span>
+                  <Badge payment={order.payment_status}>{t.paymentStatus[order.payment_status]}</Badge>
+                  <Badge status={order.status}>{t.orderStatus[order.status]}</Badge>
+                  <span className="w-20 text-right font-semibold">{formatPrice(order.total, locale)}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className={`${card} mt-6`}>
+        <div className="flex items-center justify-between border-b border-border px-4 py-3">
           <h2 className="text-lg font-semibold">
             {L('কম স্টকের সতর্কতা', 'Low stock alert')} (≤ {formatNumber(LOW_STOCK, locale)})
           </h2>
@@ -150,7 +199,7 @@ export default async function AdminDashboardPage() {
         {lowStock.length === 0 ? (
           <p className="p-4 text-sm text-zinc-600">{L('সব প্রোডাক্টের স্টক ঠিক আছে।', 'All stock levels are fine.')}</p>
         ) : (
-          <ul className="divide-y divide-zinc-100 text-sm">
+          <ul className="divide-y divide-border/70 text-sm">
             {lowStock.slice(0, 8).map((row) => (
               <li key={row.id} className="flex items-center justify-between gap-3 px-4 py-2">
                 <span>

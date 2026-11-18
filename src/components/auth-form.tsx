@@ -29,7 +29,7 @@ export function AuthForm({
   );
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+    <div className="mx-auto w-full max-w-md rounded-2xl border border-border bg-white p-6 shadow-sm sm:p-8">
       <h1 className="text-2xl font-bold">{isSignup ? t.auth.signupTitle : t.auth.loginTitle}</h1>
 
       {state?.error && (

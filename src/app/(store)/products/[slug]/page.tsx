@@ -58,22 +58,34 @@ export default async function ProductPage({ params }: Props) {
     variants.length > 0 ? variants.some((variant) => variant.stock > 0) : product.stock > 0;
 
   // Structured data so Google can show price and availability.
+  // Sizes / colours may have their own price, so give the real range.
+  const prices = variants.length > 0 ? variants.map((variant) => variant.price ?? product.price) : [product.price];
+  const lowPrice = Math.min(...prices);
+  const highPrice = Math.max(...prices);
+  const availability = inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name,
     description: description || undefined,
     sku: product.sku || undefined,
+    brand: { '@type': 'Brand', name: t.brand },
+    category: product.categories ? tr(product.categories, 'name', locale) : undefined,
     image: images.map((image) =>
       image.url.startsWith('http') ? image.url : `${siteUrl}${image.url}`,
     ),
-    offers: {
-      '@type': 'Offer',
-      url: productUrl,
-      priceCurrency: 'BDT',
-      price: product.price,
-      availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-    },
+    offers:
+      lowPrice === highPrice
+        ? { '@type': 'Offer', url: productUrl, priceCurrency: 'BDT', price: lowPrice, availability }
+        : {
+            '@type': 'AggregateOffer',
+            url: productUrl,
+            priceCurrency: 'BDT',
+            lowPrice,
+            highPrice,
+            offerCount: variants.length,
+            availability,
+          },
   };
 
   return (
@@ -97,13 +109,16 @@ export default async function ProductPage({ params }: Props) {
         )}
       </nav>
 
+      {/* The photo and the details fade up one after the other when the page opens. */}
       <div className="mt-4 grid gap-8 md:grid-cols-2">
-        <ProductGallery
-          name={name}
-          images={images.map((image) => ({ id: image.id, url: image.url, alt: image.alt }))}
-        />
+        <div className="animate-fade-in">
+          <ProductGallery
+            name={name}
+            images={images.map((image) => ({ id: image.id, url: image.url, alt: image.alt }))}
+          />
+        </div>
 
-        <div>
+        <div className="animate-fade-in [animation-delay:120ms]">
           <h1 className="text-2xl font-bold sm:text-3xl">{name}</h1>
           {product.sku && (
             <p className="mt-1 text-sm text-zinc-500">
@@ -131,7 +146,7 @@ export default async function ProductPage({ params }: Props) {
             />
           </div>
 
-          <dl className="mt-6 grid gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-sm sm:grid-cols-2">
+          <dl className="mt-6 grid gap-3 rounded-xl border border-border bg-white p-4 text-sm sm:grid-cols-2">
             <div>
               <dt className="font-semibold">{t.product.delivery}</dt>
               <dd className="mt-1 text-zinc-600">

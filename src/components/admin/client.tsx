@@ -157,7 +157,7 @@ export function ImagesField({ initial }: { initial: string[] }) {
             <li key={url} className="w-28 text-center text-xs">
               <span
                 className={`relative block aspect-square overflow-hidden rounded-lg border-2 bg-zinc-100 ${
-                  index === 0 ? 'border-brand' : 'border-zinc-200'
+                  index === 0 ? 'border-brand' : 'border-border'
                 }`}
               >
                 <Image src={url} alt="" fill sizes="112px" className="object-cover" />
@@ -187,7 +187,7 @@ export function ImagesField({ initial }: { initial: string[] }) {
         </ul>
       )}
 
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center font-semibold text-brand hover:border-brand hover:bg-blush">
+      <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-border bg-zinc-50 px-4 py-6 text-center font-semibold text-brand hover:border-brand hover:bg-blush">
         <span className="text-2xl leading-none" aria-hidden>
           +
         </span>

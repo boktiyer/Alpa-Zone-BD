@@ -2,7 +2,9 @@ import type { Dictionary } from './en';
 
 const bn: Dictionary = {
   brand: 'Alpa Zone BD',
-  tagline: 'পুরো পরিবারের ফ্যাশন, সারা বাংলাদেশে ডেলিভারি',
+  tagline: 'Style Beyond Ordinary',
+  metaDescription:
+    'Alpa Zone BD — মেয়েদের, ছেলেদের ও শিশুদের পোশাক এবং ফ্যাশন এক্সেসরিজ। সারা বাংলাদেশে ডেলিভারি, ক্যাশ অন ডেলিভারি, বিকাশ ও নগদ।',
   topbar: 'সারা বাংলাদেশে ডেলিভারি · ঢাকায় ৳৬০ · ঢাকার বাইরে ৳১২০ · ক্যাশ অন ডেলিভারি',
   nav: {
     home: 'হোম',
@@ -34,7 +36,14 @@ const bn: Dictionary = {
     whyDeliveryTitle: 'সারা দেশে ডেলিভারি',
     whyDeliveryText: 'ঢাকার ভিতরে ও বাইরে, দেশের সব জেলায় ডেলিভারি দিই।',
     whyCodTitle: 'ক্যাশ অন ডেলিভারি',
-    whyCodText: 'পার্সেল হাতে পেয়ে প্রোডাক্টের দাম পরিশোধ করুন।',
+    whyCodText:
+      'শুধু ডেলিভারি চার্জ বিকাশ/নগদে আগে পাঠান; প্রোডাক্টের দাম দিন পার্সেল হাতে পেয়ে।',
+    heroEyebrow: 'Alpa Zone BD',
+    heroText: 'মেয়েদের, ছেলেদের ও শিশুদের পোশাক এবং ফ্যাশন এক্সেসরিজ — সারা বাংলাদেশে ডেলিভারি।',
+    eyebrowCollection: 'কালেকশন',
+    eyebrowLatest: 'নতুন এসেছে',
+    eyebrowOffers: 'অফার',
+    eyebrowPromise: 'আমাদের প্রতিশ্রুতি',
     whyReturnTitle: 'সহজ রিটার্ন',
     whyReturnText: 'ভুল বা নষ্ট প্রোডাক্ট পেলে আমাদের রিটার্ন পলিসি দেখুন।',
     whySupportTitle: 'WhatsApp সাপোর্ট',
@@ -68,6 +77,7 @@ const bn: Dictionary = {
     subCategories: 'সাব-ক্যাটাগরি',
   },
   product: {
+    viewDetails: 'বিস্তারিত দেখুন',
     size: 'সাইজ',
     color: 'রং',
     inStock: 'স্টকে আছে',
@@ -281,6 +291,14 @@ const bn: Dictionary = {
   },
   footer: {
     about: 'মেয়েদের, ছেলেদের ও শিশুদের পোশাক এবং ফ্যাশন এক্সেসরিজ।',
+    contactUs: 'যোগাযোগ করুন',
+    contactIntro:
+      'সাইজ, স্টক, ডেলিভারি বা অর্ডার নিয়ে কোনো প্রশ্ন? কল বা মেসেজ করুন — আমরা সাহায্য করব।',
+    phone: 'ফোন',
+    chatWhatsApp: 'WhatsApp-এ মেসেজ করুন',
+    paymentNumber: 'বিকাশ / নগদ নম্বর',
+    orderHelp: 'অর্ডার নিয়ে সাহায্য',
+    orderHelpText: 'অর্ডার নম্বর হাতে রাখুন। চাইলে নিজেই অর্ডারের অবস্থা দেখতে পারেন:',
     quickLinks: 'দরকারি লিংক',
     contact: 'যোগাযোগ',
     follow: 'আমাদের সাথে থাকুন',

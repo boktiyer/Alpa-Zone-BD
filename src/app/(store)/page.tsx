@@ -4,7 +4,7 @@ import { getI18n } from '@/i18n/server';
 import { tr } from '@/i18n/config';
 import { getBanners, getCategories, getCategoryCovers, listProducts } from '@/lib/queries';
 import { categoryPath } from '@/lib/category-url';
-import { reviews } from '@/config/site';
+import { reviews, site } from '@/config/site';
 import { BannerSlider } from '@/components/store/banner-slider';
 import { ProductGrid } from '@/components/store/product-card';
 import { Reveal } from '@/components/reveal';
@@ -22,12 +22,24 @@ export default async function HomePage() {
   const topCategories = categories.filter((category) => !category.parent_id);
   const covers = await getCategoryCovers(categories);
 
-  const heading = 'text-xl font-bold sm:text-2xl';
+  const heading = 'text-2xl font-bold text-brand-dark sm:text-3xl';
+  // Wide letter spacing suits English capitals but splits Bangla letters apart.
+  const eyebrow = `mb-1 block font-semibold text-gold-deep ${
+    locale === 'en' ? 'text-xs uppercase tracking-[0.2em]' : 'text-sm'
+  }`;
 
-  const productSection = (title: string, href: string, products: ProductCardData[]) => (
-    <Reveal as="section" className="container-page pt-12">
-      <div className="flex items-baseline justify-between gap-3">
-        <h2 className={heading}>{title}</h2>
+  const productSection = (
+    kicker: string,
+    title: string,
+    href: string,
+    products: ProductCardData[],
+  ) => (
+    <Reveal as="section" className="container-page pt-14">
+      <div className="flex items-end justify-between gap-3 border-b border-border pb-3">
+        <div>
+          <span className={eyebrow}>{kicker}</span>
+          <h2 className={heading}>{title}</h2>
+        </div>
         <Link
           href={href}
           className="shrink-0 text-sm font-semibold text-brand transition-colors hover:text-brand-dark hover:underline"
@@ -35,7 +47,7 @@ export default async function HomePage() {
           {t.home.viewAll} →
         </Link>
       </div>
-      <div className="mt-4">
+      <div className="mt-5">
         <ProductGrid products={products} locale={locale} t={t} />
       </div>
     </Reveal>
@@ -53,11 +65,60 @@ export default async function HomePage() {
     { icon: WhatsAppIcon, title: t.home.whySupportTitle, text: t.home.whySupportText },
   ];
 
+  // Lets Google show the shop name, logo and contact links.
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'OnlineStore',
+    name: t.brand,
+    slogan: t.tagline,
+    url: siteUrl,
+    logo: `${siteUrl}/brand/logo.png`,
+    telephone: site.phone,
+    sameAs: [site.facebook, site.instagram].filter(Boolean),
+    areaServed: 'BD',
+    currenciesAccepted: 'BDT',
+  };
+
   return (
     <>
-      <BannerSlider banners={banners} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
 
-      <section className="container-page pt-10">
+      {banners.length > 0 ? (
+        <>
+          {/* The banners are pictures, so the page title is given here for search engines and screen readers. */}
+          <h1 className="sr-only">
+            {t.brand} — {t.tagline}
+          </h1>
+          <BannerSlider banners={banners} />
+        </>
+      ) : (
+        // No active banners: a simple brand hero instead of an empty top.
+        <section className="container-page pt-4">
+          <div className="relative overflow-hidden rounded-2xl bg-brand-dark px-6 py-14 text-center text-white sm:py-20">
+            <span
+              aria-hidden
+              className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(211_177_123/0.25),transparent_55%)]"
+            />
+            <div className="relative">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+                {t.home.heroEyebrow}
+              </span>
+              <h1 className="mt-3 text-4xl font-bold sm:text-6xl">{t.tagline}</h1>
+              <p className="mx-auto mt-4 max-w-xl text-white/85 sm:text-lg">{t.home.heroText}</p>
+              <Link href="/products" className="btn-secondary mt-6">
+                {t.home.shopNow}
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="container-page pt-12">
+        <span className={eyebrow}>{t.home.eyebrowCollection}</span>
         <h2 className={heading}>{t.home.shopByCategory}</h2>
 
         {topCategories.length === 0 ? (
@@ -108,21 +169,22 @@ export default async function HomePage() {
           <p className="rounded-xl bg-blush p-4 text-sm text-brand-dark">{t.home.noProducts}</p>
         </section>
       ) : (
-        productSection(t.home.newArrivals, '/products', newest.products)
+        productSection(t.home.eyebrowLatest, t.home.newArrivals, '/products', newest.products)
       )}
 
       {discounted.products.length > 0 &&
-        productSection(t.home.discounted, '/products?discount=1&sort=discount', discounted.products)}
+        productSection(t.home.eyebrowOffers, t.home.discounted, '/products?discount=1&sort=discount', discounted.products)}
 
       {/* Why shop with us */}
-      <Reveal as="section" className="mt-14 bg-blush py-10">
-        <div className="container-page">
-          <h2 className={`${heading} text-center text-brand`}>{t.home.whyTitle}</h2>
+      <Reveal as="section" className="mt-16 border-y border-border bg-blush py-12">
+        <div className="container-page text-center">
+          <span className={eyebrow}>{t.home.eyebrowPromise}</span>
+          <h2 className={heading}>{t.home.whyTitle}</h2>
           <ul className="stagger mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {reasons.map(({ icon: IconComponent, title, text, href }) => {
               const body = (
                 <>
-                  <span className="grid size-12 place-items-center rounded-full bg-brand text-white">
+                  <span className="grid size-12 place-items-center rounded-full bg-brand text-gold ring-4 ring-gold/25">
                     <IconComponent className="size-6" />
                   </span>
                   <span className="mt-3 block font-semibold text-brand-dark">{title}</span>

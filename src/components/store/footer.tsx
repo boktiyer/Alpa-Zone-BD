@@ -22,11 +22,15 @@ export async function Footer() {
           <Link href="/" className="inline-block">
             <Logo className="h-24 w-auto" />
           </Link>
-          <p className="mt-3 text-sm">{t.footer.about}</p>
+          <p className="mt-3 font-display text-xl italic text-gold">{t.tagline}</p>
+          <p className="mt-2 text-sm">{t.footer.about}</p>
+          <p className="mt-3 text-sm">
+            <span className="text-white">{t.product.payment}:</span> {t.product.paymentMethods}
+          </p>
         </div>
 
         <div>
-          <p className="font-display font-semibold text-white">{t.nav.categories}</p>
+          <p className="font-display text-lg font-semibold text-gold">{t.nav.categories}</p>
           <ul className="mt-2 space-y-1.5 text-sm">
             {topCategories.map((category) => (
               <li key={category.id}>
@@ -39,7 +43,7 @@ export async function Footer() {
         </div>
 
         <div>
-          <p className="font-display font-semibold text-white">{t.footer.quickLinks}</p>
+          <p className="font-display text-lg font-semibold text-gold">{t.footer.quickLinks}</p>
           <ul className="mt-2 space-y-1.5 text-sm">
             <li>
               <Link href="/products" className="transition-colors hover:text-gold">
@@ -54,6 +58,11 @@ export async function Footer() {
             <li>
               <Link href="/about" className="transition-colors hover:text-gold">
                 {t.footer.aboutUs}
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="transition-colors hover:text-gold">
+                {t.footer.contactUs}
               </Link>
             </li>
             <li>
@@ -79,7 +88,7 @@ export async function Footer() {
         </div>
 
         <div>
-          <p className="font-display font-semibold text-white">{t.footer.contact}</p>
+          <p className="font-display text-lg font-semibold text-gold">{t.footer.contact}</p>
           <ul className="mt-2 space-y-2 text-sm">
             <li>
               <a
@@ -103,7 +112,7 @@ export async function Footer() {
             </li>
           </ul>
 
-          <p className="mt-4 font-display font-semibold text-white">{t.footer.follow}</p>
+          <p className="mt-5 font-display text-lg font-semibold text-gold">{t.footer.follow}</p>
           <div className="mt-2 flex gap-2">
             <a
               href={site.facebook}

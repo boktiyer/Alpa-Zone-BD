@@ -187,11 +187,11 @@ export async function ProductListing({
     <div className="mt-5 grid gap-6 lg:grid-cols-[16rem_1fr]">
       {/* Phones: collapsible. Desktop: always-open sidebar. */}
       <aside>
-        <details className="rounded-xl border border-zinc-200 bg-white lg:hidden" open={hasFilters}>
+        <details className="rounded-xl border border-border bg-white lg:hidden" open={hasFilters}>
           <summary className="cursor-pointer px-4 py-3 font-semibold">{t.list.filters}</summary>
-          <div className="border-t border-zinc-200 p-4">{filterForm}</div>
+          <div className="border-t border-border p-4">{filterForm}</div>
         </details>
-        <div className="sticky top-28 hidden rounded-xl border border-zinc-200 bg-white p-4 lg:block">
+        <div className="sticky top-28 hidden rounded-xl border border-border bg-white p-4 lg:block">
           <p className="mb-3 font-semibold">{t.list.filters}</p>
           {filterForm}
         </div>

@@ -13,7 +13,7 @@ export function TrackForm({ defaultOrderNumber }: { defaultOrderNumber: string }
     <>
       <form
         action={formAction}
-        className="grid gap-4 rounded-2xl border border-zinc-200 bg-white p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end sm:p-5"
+        className="grid gap-4 rounded-2xl border border-border bg-white p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end sm:p-5"
       >
         <label className="block text-sm font-medium">
           {t.track.orderNumber}

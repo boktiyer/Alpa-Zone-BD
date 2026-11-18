@@ -59,6 +59,7 @@ export async function Header() {
       label: tr(category, 'name', locale),
     })),
     { href: '/track-order', label: t.nav.track },
+    { href: '/contact', label: t.footer.contactUs },
   ];
   const accountItems: NavItem[] = profile
     ? [

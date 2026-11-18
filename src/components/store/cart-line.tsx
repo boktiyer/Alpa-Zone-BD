@@ -72,7 +72,7 @@ export function CartLineRow({ line }: { line: CartLine }) {
           <div
             role="group"
             aria-label={t.product.quantity}
-            className="inline-flex items-center rounded-lg border border-zinc-300 bg-white"
+            className="inline-flex items-center rounded-lg border border-border bg-white"
           >
             <button
               type="button"

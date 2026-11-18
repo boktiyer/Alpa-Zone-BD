@@ -1,7 +1,7 @@
 # Alpa Zone BD
 
 E-commerce site for Bangladesh. Next.js 16 (App Router) + Tailwind CSS 4 + Supabase, deployed on Vercel.
-Bangla + English, Royal Blue / White / Black theme.
+Bangla + English. Brand: "Style Beyond Ordinary" — maroon / burgundy / champagne gold on warm ivory.
 
 ## First-time setup
 
@@ -73,8 +73,8 @@ public/
 src/
   proxy.ts               middleware (Next.js 16 calls it "proxy"): session + /admin protection
   app/
-    layout.tsx           root layout: font, language, metadata
-    globals.css          Tailwind 4 theme (royal blue palette lives here)
+    layout.tsx           root layout: fonts (Cormorant Garamond, DM Sans, Hind Siliguri), language, metadata
+    globals.css          Tailwind 4 theme (brand colours and fonts live here)
     icon.png             favicon
     (store)/             CUSTOMER SITE
       layout.tsx           header + footer
@@ -112,7 +112,7 @@ src/
 - **Orders** are created only through the `place_order()` database function, which
   calculates prices, discount and the delivery charge (Dhaka ৳60 / outside ৳120) itself
   and reduces stock, so a browser cannot send a fake total.
-- **Theme:** edit the `--color-royal-*` values in `src/app/globals.css`.
+- **Theme:** edit the `--color-*` values at the top of `src/app/globals.css`.
 
 ## Deploy to Vercel
 

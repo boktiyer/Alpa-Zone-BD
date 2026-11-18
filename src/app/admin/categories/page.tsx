@@ -113,7 +113,7 @@ export default async function AdminCategoriesPage({
               <th className={th} />
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-100">
+          <tbody className="divide-y divide-border/70">
             {[...rows, ...orphans.map((item): [Category, number] => [item, 0])].map(
               ([category, depth]) => (
                 <tr key={category.id}>

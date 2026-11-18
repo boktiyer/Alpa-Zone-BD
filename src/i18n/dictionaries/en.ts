@@ -1,6 +1,8 @@
 const en = {
   brand: 'Alpa Zone BD',
-  tagline: 'Fashion for the whole family, delivered all over Bangladesh',
+  tagline: 'Style Beyond Ordinary',
+  metaDescription:
+    'Alpa Zone BD — clothing and fashion accessories for women, men and kids. Delivery all over Bangladesh, Cash on Delivery, bKash and Nagad.',
   topbar: 'Delivery all over Bangladesh · Dhaka ৳60 · Outside Dhaka ৳120 · Cash on Delivery',
   nav: {
     home: 'Home',
@@ -32,7 +34,14 @@ const en = {
     whyDeliveryTitle: 'Delivery all over Bangladesh',
     whyDeliveryText: 'We deliver to every district, inside and outside Dhaka.',
     whyCodTitle: 'Cash on Delivery',
-    whyCodText: 'Pay the product price when the parcel reaches you.',
+    whyCodText:
+      'Send only the delivery charge by bKash/Nagad; pay for the product when the parcel reaches you.',
+    heroEyebrow: 'Alpa Zone BD',
+    heroText: 'Clothing and fashion accessories for women, men and kids — delivered all over Bangladesh.',
+    eyebrowCollection: 'Collections',
+    eyebrowLatest: 'Just in',
+    eyebrowOffers: 'Offers',
+    eyebrowPromise: 'Our promise',
     whyReturnTitle: 'Easy returns',
     whyReturnText: 'Wrong or damaged item? See our return policy.',
     whySupportTitle: 'WhatsApp support',
@@ -66,6 +75,7 @@ const en = {
     subCategories: 'Sub-categories',
   },
   product: {
+    viewDetails: 'View details',
     size: 'Size',
     color: 'Colour',
     inStock: 'In stock',
@@ -278,7 +288,15 @@ const en = {
     cod: 'Cash on Delivery',
   },
   footer: {
-    about: 'Clothing and fashion accessories for women, men and babies.',
+    about: 'Clothing and fashion accessories for women, men and kids.',
+    contactUs: 'Contact us',
+    contactIntro:
+      'Questions about sizes, stock, delivery or an order? Call or message us — we are happy to help.',
+    phone: 'Phone',
+    chatWhatsApp: 'Chat on WhatsApp',
+    paymentNumber: 'bKash / Nagad number',
+    orderHelp: 'Help with an order',
+    orderHelpText: 'Keep your order number ready. You can also check the status yourself:',
     quickLinks: 'Quick links',
     contact: 'Contact',
     follow: 'Follow us',

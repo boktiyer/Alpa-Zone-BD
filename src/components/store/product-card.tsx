@@ -7,6 +7,7 @@ import { getWishlistIds } from '@/lib/cart';
 import { primaryImage } from '@/lib/queries';
 import type { ProductCardData } from '@/types/database';
 import { WishlistHeart } from '@/components/store/wishlist-heart';
+import { CardImagePending, CardRingPending } from '@/components/store/card-link-status';
 
 /** A product counts as "new" for this many days after it was added. */
 const NEW_FOR_DAYS = 14;
@@ -43,6 +44,8 @@ export function ProductCard({
   const priceText = formatPrice(price, locale);
 
   return (
+    // Motion (see globals.css): lifts on hover, presses in when tapped, and shows a
+    // gold ring + spinner until the product page appears (card-link-status.tsx).
     <div className="card-lift group flex h-full flex-col rounded-xl border border-border bg-white">
       <Link href={`/products/${product.slug}`} className="flex flex-1 flex-col">
         <div className="relative aspect-[4/5] overflow-hidden rounded-t-xl bg-blush">
@@ -52,9 +55,19 @@ export function ProductCard({
               alt={image.alt || name}
               fill
               sizes="(min-width: 1280px) 300px, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-              className="object-cover transition-transform duration-500 ease-soft group-hover:scale-105"
+              className="object-cover transition-transform duration-700 ease-soft group-hover:scale-[1.06]"
             />
           )}
+          {/* A soft band of light sweeps across the photo on hover. */}
+          <span aria-hidden className="card-sheen" />
+          {/* "View details" slides up on hover (devices with a mouse only). */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-3 bottom-3 translate-y-3 rounded-full bg-brand-dark/90 py-2 text-center text-xs font-semibold text-white opacity-0 backdrop-blur transition-all duration-500 ease-soft group-hover:translate-y-0 group-hover:opacity-100 sm:text-sm"
+          >
+            {t.product.viewDetails}
+          </span>
+          <CardImagePending />
           <div className="absolute left-2 top-2 flex flex-col items-start gap-1">
             {percent > 0 && (
               <span className="rounded-md bg-sale px-2 py-0.5 text-xs font-semibold text-white">
@@ -84,6 +97,7 @@ export function ProductCard({
             )}
           </p>
         </div>
+        <CardRingPending />
       </Link>
 
       <WishlistHeart productId={product.id} initial={inWishlist} />

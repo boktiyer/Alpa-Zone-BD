@@ -54,7 +54,7 @@ export default async function AccountPage() {
           <li key={item.href}>
             <Link
               href={item.href}
-              className="block rounded-xl border border-zinc-200 bg-white p-4 text-center font-semibold hover:border-brand hover:text-brand"
+              className="block rounded-xl border border-border bg-white p-4 text-center font-semibold hover:border-brand hover:text-brand"
             >
               {item.label}
             </Link>
@@ -62,7 +62,7 @@ export default async function AccountPage() {
         ))}
       </ul>
 
-      <section className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
+      <section className="mt-6 rounded-2xl border border-border bg-white p-5 sm:p-6">
         <h2 className="mb-4 text-lg font-semibold">{t.account.profile}</h2>
         <ProfileForm profile={profile} />
       </section>

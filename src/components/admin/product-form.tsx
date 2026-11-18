@@ -10,7 +10,7 @@ import { PriceFields, VariantsField } from '@/components/admin/product-fields';
 export async function ProductForm({ product }: { product?: ProductDetail }) {
   const [{ locale, L }, categories] = await Promise.all([getAdminI18n(), getCategories()]);
   const label = 'block text-sm font-medium';
-  const section = 'rounded-xl border border-zinc-200 bg-white p-4 sm:p-5';
+  const section = 'rounded-xl border border-border bg-white p-4 sm:p-5';
   const heading = 'mb-3 flex items-center gap-2 text-base font-semibold';
   const step = 'grid size-7 shrink-0 place-items-center rounded-full bg-brand text-sm font-bold text-white';
 
@@ -168,7 +168,7 @@ export async function ProductForm({ product }: { product?: ProductDetail }) {
         </details>
 
         {/* Always within reach, also on a phone. */}
-        <div className="sticky bottom-0 z-10 -mx-4 border-t border-zinc-200 bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
+        <div className="sticky bottom-0 z-10 -mx-4 border-t border-border bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
           <SubmitButton className="btn-primary w-full py-3 text-base sm:w-auto sm:px-10">
             {product ? L('সেভ করুন', 'Save changes') : L('প্রোডাক্ট যোগ করুন', 'Add product')}
           </SubmitButton>
@@ -176,7 +176,7 @@ export async function ProductForm({ product }: { product?: ProductDetail }) {
       </form>
 
       {product && (
-        <form action={deleteProduct} className="mt-6 border-t border-zinc-200 pt-4">
+        <form action={deleteProduct} className="mt-6 border-t border-border pt-4">
           <input type="hidden" name="id" value={product.id} />
           <ConfirmButton
             message={L(

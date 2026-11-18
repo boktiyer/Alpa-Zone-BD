@@ -58,7 +58,7 @@ export function OrderTimeline({
             )}
             <span
               className={`relative grid size-8 shrink-0 place-items-center rounded-full text-sm font-bold ${
-                done ? 'bg-brand text-white' : 'border-2 border-zinc-300 bg-white text-zinc-500'
+                done ? 'bg-brand text-white' : 'border-2 border-border bg-white text-zinc-500'
               }`}
             >
               {done ? <CheckIcon className="size-4" /> : formatNumber(index + 1, locale)}
@@ -92,7 +92,7 @@ export function OrderDetails({
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
+      <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-border bg-white p-4 sm:p-5">
         <div>
           <p className="text-sm text-zinc-600">{t.order.orderNumber}</p>
           <p className="text-2xl font-bold tracking-wide text-brand">{order.order_number}</p>
@@ -102,16 +102,16 @@ export function OrderDetails({
         </p>
       </div>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
+      <section className="rounded-2xl border border-border bg-white p-4 sm:p-5">
         <h2 className="mb-4 text-lg font-semibold">{t.order.status}</h2>
         <OrderTimeline order={order} locale={locale} t={t} />
       </section>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white">
-        <h2 className="border-b border-zinc-200 px-4 py-3 text-lg font-semibold sm:px-5">
+      <section className="rounded-2xl border border-border bg-white">
+        <h2 className="border-b border-border px-4 py-3 text-lg font-semibold sm:px-5">
           {t.order.items}
         </h2>
-        <ul className="divide-y divide-zinc-100">
+        <ul className="divide-y divide-border/70">
           {order.items.map((item, index) => (
             <li key={index} className="flex gap-3 p-3 sm:px-5">
               <span className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-blush">
@@ -135,7 +135,7 @@ export function OrderDetails({
           ))}
         </ul>
 
-        <dl className="space-y-2 border-t border-zinc-200 p-4 text-sm sm:px-5">
+        <dl className="space-y-2 border-t border-border p-4 text-sm sm:px-5">
           <div className="flex justify-between">
             <dt>{t.cart.subtotal}</dt>
             <dd>{formatPrice(order.subtotal, locale)}</dd>
@@ -153,14 +153,14 @@ export function OrderDetails({
             </dt>
             <dd>{formatPrice(order.delivery_charge, locale)}</dd>
           </div>
-          <div className="flex justify-between border-t border-zinc-200 pt-2 text-lg font-bold">
+          <div className="flex justify-between border-t border-border pt-2 text-lg font-bold">
             <dt>{t.cart.total}</dt>
             <dd className="text-brand">{formatPrice(order.total, locale)}</dd>
           </div>
         </dl>
       </section>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
+      <section className="rounded-2xl border border-border bg-white p-4 sm:p-5">
         <h2 className="text-lg font-semibold">{t.order.payment}</h2>
         <dl className="mt-3 space-y-2 text-sm">
           <div className="flex justify-between gap-3">

@@ -19,7 +19,7 @@ export function WishlistRemove({ productId }: { productId: string }) {
           await toggleWishlist(productId);
         })
       }
-      className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-300 bg-white py-2 text-sm font-medium text-zinc-700 hover:border-red-300 hover:text-red-700 disabled:opacity-60"
+      className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-border bg-white py-2 text-sm font-medium text-zinc-700 hover:border-red-300 hover:text-red-700 disabled:opacity-60"
     >
       <TrashIcon className="size-4" />
       {t.cart.remove}

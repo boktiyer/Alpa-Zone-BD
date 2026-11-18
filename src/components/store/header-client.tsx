@@ -35,7 +35,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
       {/* The shadow lives on its own layer so only its opacity animates. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-border shadow-[0_6px_16px_rgb(74_10_29/0.28)] opacity-40 transition-opacity duration-300 group-data-[scrolled=true]/header:opacity-100"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-border shadow-[0_6px_16px_rgb(53_16_28/0.18)] opacity-40 transition-opacity duration-300 group-data-[scrolled=true]/header:opacity-100"
       />
     </header>
   );

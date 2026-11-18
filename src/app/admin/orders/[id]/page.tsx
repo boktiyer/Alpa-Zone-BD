@@ -47,7 +47,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
 
       <div className="grid gap-5 lg:grid-cols-[1fr_20rem] print:block">
         <article className={`${card} p-4 sm:p-6 print:border-0 print:p-0`}>
-          <header className="flex flex-wrap items-start justify-between gap-3 border-b border-zinc-200 pb-4">
+          <header className="flex flex-wrap items-start justify-between gap-3 border-b border-border pb-4">
             <div>
               <p className="text-xl font-bold">{site.name}</p>
               <p className="text-sm text-zinc-600">{site.phone}</p>
@@ -99,7 +99,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
                   <th className={`${th} text-right`}>{t.admin.total}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-border/70">
                 {order.order_items.map((item) => (
                   <tr key={item.id}>
                     <td className={td}>
@@ -134,7 +134,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
               <dt>{t.checkout.deliveryCharge}</dt>
               <dd>{formatPrice(order.delivery_charge, locale)}</dd>
             </div>
-            <div className="flex justify-between border-t border-zinc-300 pt-1.5 text-base font-bold">
+            <div className="flex justify-between border-t border-border pt-1.5 text-base font-bold">
               <dt>{t.cart.total}</dt>
               <dd>{formatPrice(order.total, locale)}</dd>
             </div>
@@ -228,7 +228,7 @@ export default async function AdminOrderPage({ params, searchParams }: Props) {
                   <SubmitButton className="btn-outline shrink-0">{t.account.save}</SubmitButton>
                 </form>
 
-                <form action={updateOrder} className="mt-4 border-t border-zinc-200 pt-3">
+                <form action={updateOrder} className="mt-4 border-t border-border pt-3">
                   <input type="hidden" name="id" value={order.id} />
                   <input type="hidden" name="status" value="cancelled" />
                   <ConfirmButton

@@ -39,7 +39,7 @@ export function CheckoutForm({
 
   const choice = (active: boolean) =>
     `flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition ${
-      active ? 'border-brand ring-2 ring-gold/40' : 'border-zinc-300 hover:border-gold'
+      active ? 'border-brand ring-2 ring-gold/40' : 'border-border hover:border-gold'
     }`;
 
   return (
@@ -51,7 +51,7 @@ export function CheckoutForm({
           </p>
         )}
 
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
+        <section className="rounded-2xl border border-border bg-white p-4 sm:p-6">
           <h2 className="text-lg font-semibold">{t.checkout.deliveryDetails}</h2>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -128,7 +128,7 @@ export function CheckoutForm({
           </label>
         </section>
 
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
+        <section className="rounded-2xl border border-border bg-white p-4 sm:p-6">
           <h2 className="text-lg font-semibold">{t.checkout.paymentMethod}</h2>
 
           <div className="mt-4 grid gap-2">
@@ -167,7 +167,7 @@ export function CheckoutForm({
                       className={`cursor-pointer rounded-lg border px-4 py-2 text-sm font-semibold ${
                         wallet === value
                           ? 'border-brand bg-brand text-white'
-                          : 'border-zinc-300 bg-white'
+                          : 'border-border bg-white'
                       }`}
                     >
                       <input
@@ -222,7 +222,7 @@ export function CheckoutForm({
       </div>
 
       <aside>
-        <div className="sticky top-28 rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
+        <div className="sticky top-28 rounded-2xl border border-border bg-white p-4 sm:p-6">
           <h2 className="text-lg font-semibold">{t.checkout.orderSummary}</h2>
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">
@@ -239,7 +239,7 @@ export function CheckoutForm({
               <dt>{t.checkout.deliveryCharge}</dt>
               <dd>{formatPrice(charge, locale)}</dd>
             </div>
-            <div className="flex justify-between border-t border-zinc-200 pt-2 text-lg font-bold">
+            <div className="flex justify-between border-t border-border pt-2 text-lg font-bold">
               <dt>{t.cart.total}</dt>
               <dd className="text-brand">{formatPrice(total, locale)}</dd>
             </div>
