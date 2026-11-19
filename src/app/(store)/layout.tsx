@@ -2,6 +2,7 @@ import { Header } from '@/components/store/header';
 import { Footer } from '@/components/store/footer';
 import { MobileNav } from '@/components/store/mobile-nav';
 import { Toaster } from '@/components/store/toast';
+import { InstallPrompt } from '@/components/store/install-prompt';
 import { getCurrentProfile } from '@/lib/auth';
 import { getCartCount } from '@/lib/cart';
 
@@ -18,6 +19,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
       <Footer />
       <MobileNav cartCount={cartCount} loggedIn={Boolean(profile)} />
       <Toaster />
+      <InstallPrompt />
     </div>
   );
 }

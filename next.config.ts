@@ -16,6 +16,19 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 480, 640, 750, 828, 1080, 1200, 1600, 1920],
   },
 
+  async headers() {
+    return [
+      {
+        // The service worker must never be cached by the browser, so updates reach phones at once.
+        source: '/sw.js',
+        headers: [
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+        ],
+      },
+    ];
+  },
+
   async redirects() {
     return [
       // The baby category moved to /category/kids (see src/lib/category-url.ts).

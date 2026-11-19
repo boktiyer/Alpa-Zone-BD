@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans, Hind_Siliguri } from 'next/font/google';
 import { getI18n } from '@/i18n/server';
 import { I18nProvider } from '@/i18n/provider';
 import { RecoveryLinkCatcher } from '@/components/recovery-link-catcher';
+import { PwaRegister } from '@/components/pwa-register';
 import './globals.css';
 
 // Bangla text (body and headings).
@@ -43,11 +44,17 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: { card: 'summary_large_image' },
     formatDetection: { telephone: false },
+    // Installed on an iPhone home screen: open full screen like an app.
+    appleWebApp: { capable: true, title: 'Alpa Zone', statusBarStyle: 'default' },
+    // Next.js now writes only "mobile-web-app-capable"; older iPhones still read this one.
+    other: { 'apple-mobile-web-app-capable': 'yes' },
   };
 }
 
 export const viewport: Viewport = {
-  themeColor: '#35101c',
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#6D0F2B',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -58,6 +65,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="min-h-dvh font-sans antialiased">
         <I18nProvider locale={locale} t={t}>
           <RecoveryLinkCatcher />
+          <PwaRegister />
           {children}
         </I18nProvider>
       </body>

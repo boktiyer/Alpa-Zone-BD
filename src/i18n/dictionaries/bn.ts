@@ -322,6 +322,14 @@ const bn: Dictionary = {
     switchTo: 'English',
     label: 'ভাষা ইংরেজিতে পরিবর্তন করুন',
   },
+  pwa: {
+    title: 'অ্যাপ হিসেবে ইনস্টল করুন',
+    body: 'হোম স্ক্রিনে Alpa Zone যোগ করুন, আরও দ্রুত কেনাকাটা করুন।',
+    install: 'ইনস্টল করুন',
+    close: 'বন্ধ করুন',
+    iosStep1: 'নিচের Share বাটনে',
+    iosStep2: 'চাপুন, তারপর "Add to Home Screen" বেছে নিন।',
+  },
 };
 
 export default bn;

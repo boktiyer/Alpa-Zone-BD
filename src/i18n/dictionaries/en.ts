@@ -320,6 +320,14 @@ const en = {
     switchTo: 'বাংলা',
     label: 'Change language to Bangla',
   },
+  pwa: {
+    title: 'Install as an app',
+    body: 'Add Alpa Zone to your home screen and shop faster.',
+    install: 'Install',
+    close: 'Close',
+    iosStep1: 'Tap the Share button',
+    iosStep2: 'below, then choose "Add to Home Screen".',
+  },
 };
 
 export type Dictionary = typeof en;
