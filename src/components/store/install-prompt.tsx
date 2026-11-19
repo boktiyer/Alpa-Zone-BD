@@ -2,16 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useI18n } from '@/i18n/provider';
+import { promptInstall, usePlatform, usePwaInstall } from '@/components/store/use-pwa-install';
+import { ShareIcon } from '@/components/store/install-app-button';
 
 // "Install as app" banner.
 // Android/Chrome: uses the browser's install prompt (beforeinstallprompt).
 // iPhone/iPad: shows "Share → Add to Home Screen" steps (iOS has no prompt).
 // Closing it hides it for 30 days. Never shown once the app is installed.
-
-type InstallEvent = Event & {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-};
+// The always-available button is in install-app-button.tsx.
 
 const KEY = 'pwa-install-dismissed-at';
 const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
@@ -35,50 +33,28 @@ function rememberDismiss() {
 
 export function InstallPrompt() {
   const { t } = useI18n();
-  const [installEvent, setInstallEvent] = useState<InstallEvent | null>(null);
-  const [showIos, setShowIos] = useState(false);
+  const platform = usePlatform();
+  const { event, installed } = usePwaInstall();
+  const [allowed, setAllowed] = useState(false); // not closed in the last 30 days
 
   useEffect(() => {
-    const installed =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true;
-    if (installed || dismissedRecently()) return;
+    if (platform === null || platform === 'installed' || dismissedRecently()) return;
+    // On iPhone, give the page a moment before showing the tip.
+    const timer = setTimeout(() => setAllowed(true), platform === 'ios' ? 3000 : 0);
+    return () => clearTimeout(timer);
+  }, [platform]);
 
-    const ua = navigator.userAgent;
-    const isIos = /iphone|ipad|ipod/i.test(ua) || (ua.includes('Macintosh') && navigator.maxTouchPoints > 1);
-    if (isIos) {
-      // Give the page a moment before showing the tip.
-      const timer = setTimeout(() => setShowIos(true), 3000);
-      return () => clearTimeout(timer);
-    }
-
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setInstallEvent(e as InstallEvent);
-    };
-    const onInstalled = () => setInstallEvent(null);
-    window.addEventListener('beforeinstallprompt', onPrompt);
-    window.addEventListener('appinstalled', onInstalled);
-    return () => {
-      window.removeEventListener('beforeinstallprompt', onPrompt);
-      window.removeEventListener('appinstalled', onInstalled);
-    };
-  }, []);
-
-  if (!installEvent && !showIos) return null;
+  const showIos = platform === 'ios';
+  if (!allowed || installed || (!event && !showIos)) return null;
 
   const close = () => {
     rememberDismiss();
-    setInstallEvent(null);
-    setShowIos(false);
+    setAllowed(false);
   };
 
   const install = async () => {
-    if (!installEvent) return;
-    await installEvent.prompt();
-    const { outcome } = await installEvent.userChoice;
-    if (outcome === 'dismissed') rememberDismiss();
-    setInstallEvent(null);
+    const outcome = await promptInstall();
+    if (outcome === 'dismissed') close();
   };
 
   return (
@@ -91,26 +67,15 @@ export function InstallPrompt() {
         <img src="/icons/icon-192.png" alt="" width={44} height={44} className="size-11 shrink-0 rounded-xl" />
         <div className="min-w-0 flex-1">
           <p className="font-semibold text-brand-dark">{t.pwa.title}</p>
-          {showIos ? (
-            <p className="mt-1 text-sm leading-relaxed text-ink/80">
-              {t.pwa.iosStep1}{' '}
-              <svg
-                viewBox="0 0 24 24"
-                aria-label="Share"
-                className="inline size-4 align-text-bottom text-[#007aff]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 3v12M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" />
-              </svg>{' '}
-              {t.pwa.iosStep2}
-            </p>
-          ) : (
-            <p className="mt-1 text-sm leading-relaxed text-ink/80">{t.pwa.body}</p>
-          )}
+          <p className="mt-1 text-sm leading-relaxed text-ink/80">
+            {showIos ? (
+              <>
+                {t.pwa.iosStep1} <ShareIcon /> {t.pwa.iosStep2}
+              </>
+            ) : (
+              t.pwa.body
+            )}
+          </p>
         </div>
         <button
           type="button"
@@ -123,7 +88,7 @@ export function InstallPrompt() {
           </svg>
         </button>
       </div>
-      {installEvent && (
+      {event && !showIos && (
         <button
           type="button"
           onClick={install}

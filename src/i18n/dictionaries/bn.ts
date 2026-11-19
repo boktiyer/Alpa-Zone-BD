@@ -324,11 +324,15 @@ const bn: Dictionary = {
   },
   pwa: {
     title: 'অ্যাপ হিসেবে ইনস্টল করুন',
-    body: 'হোম স্ক্রিনে Alpa Zone যোগ করুন, আরও দ্রুত কেনাকাটা করুন।',
+    body: 'হোম স্ক্রিনে Alpa Zone BD যোগ করুন, আরও দ্রুত কেনাকাটা করুন।',
     install: 'ইনস্টল করুন',
     close: 'বন্ধ করুন',
     iosStep1: 'নিচের Share বাটনে',
     iosStep2: 'চাপুন, তারপর "Add to Home Screen" বেছে নিন।',
+    button: 'অ্যাপ ইনস্টল করুন',
+    helpTitle: 'কীভাবে অ্যাপ ইনস্টল করবেন',
+    otherHelp: 'ব্রাউজারের মেনু (⋮) খুলে "Install app" বা "Add to Home screen" বেছে নিন।',
+    ok: 'ঠিক আছে',
   },
 };
 

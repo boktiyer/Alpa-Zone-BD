@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
     name: 'Alpa Zone BD',
-    short_name: 'Alpa Zone',
+    short_name: 'Alpa Zone BD',
     description:
       'Alpa Zone BD — নারী, পুরুষ ও শিশুদের পোশাক এবং ফ্যাশন অ্যাক্সেসরিজ। সারা বাংলাদেশে ডেলিভারি, ক্যাশ অন ডেলিভারি।',
     start_url: '/',

@@ -6,6 +6,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { useI18n } from '@/i18n/provider';
 import { formatNumber } from '@/lib/format';
 import { LanguageToggle } from '@/components/language-toggle';
+import { InstallAppButton } from '@/components/store/install-app-button';
 import { CartIcon, CloseIcon, MenuIcon } from '@/components/icons';
 import { CART_ADDED_EVENT } from '@/components/store/toast';
 
@@ -211,7 +212,8 @@ export function MobileMenu({
           </ul>
         </div>
 
-        <div className="border-t border-border p-3">
+        <div className="space-y-2 border-t border-border p-3">
+          <InstallAppButton variant="menu" />
           <LanguageToggle className="w-full text-ink" />
         </div>
       </div>

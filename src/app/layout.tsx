@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: { card: 'summary_large_image' },
     formatDetection: { telephone: false },
     // Installed on an iPhone home screen: open full screen like an app.
-    appleWebApp: { capable: true, title: 'Alpa Zone', statusBarStyle: 'default' },
+    appleWebApp: { capable: true, title: 'Alpa Zone BD', statusBarStyle: 'default' },
     // Next.js now writes only "mobile-web-app-capable"; older iPhones still read this one.
     other: { 'apple-mobile-web-app-capable': 'yes' },
   };

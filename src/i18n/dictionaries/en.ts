@@ -322,11 +322,15 @@ const en = {
   },
   pwa: {
     title: 'Install as an app',
-    body: 'Add Alpa Zone to your home screen and shop faster.',
+    body: 'Add Alpa Zone BD to your home screen and shop faster.',
     install: 'Install',
     close: 'Close',
     iosStep1: 'Tap the Share button',
     iosStep2: 'below, then choose "Add to Home Screen".',
+    button: 'Install app',
+    helpTitle: 'How to install the app',
+    otherHelp: 'Open your browser menu (⋮) and choose "Install app" or "Add to Home screen".',
+    ok: 'OK',
   },
 };
 

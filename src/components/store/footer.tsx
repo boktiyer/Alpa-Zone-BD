@@ -7,6 +7,7 @@ import { formatPrice } from '@/lib/format';
 import { site, whatsappLink } from '@/config/site';
 import { DELIVERY_CHARGE } from '@/types/database';
 import { Logo } from '@/components/logo';
+import { InstallAppButton } from '@/components/store/install-app-button';
 import { FacebookIcon, InstagramIcon, PhoneIcon, WhatsAppIcon } from '@/components/icons';
 
 export async function Footer() {
@@ -143,6 +144,10 @@ export async function Footer() {
             >
               <WhatsAppIcon className="size-5" />
             </a>
+          </div>
+
+          <div className="mt-5">
+            <InstallAppButton variant="footer" />
           </div>
         </div>
       </div>
